@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+I'm<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -484,8 +484,12 @@
                     }
                 }
                 
-                if (data.success && data.data) {
-                    const user = data.data.user;
+                if if (data.success && data.data) {
+    console.log('Full response:', data);  // ADD THIS
+    const user = data.data.user;
+    console.log('User object:', user);    // ADD THIS
+    console.log('User role:', user.role); // ADD THIS
+    console.log('Role type:', typeof user.role); // ADD THIS
                     
     console.log('User data from backend:', user);  // ADD THIS LINE
     console.log('User role:', user.role);          // ADD THIS LINE
