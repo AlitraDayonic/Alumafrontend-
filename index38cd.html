@@ -1,0 +1,508 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+<title>aluma.com</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300italic,300,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="faqstyle.css" type="text/css" />
+<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!--- banner tab script --->
+
+ <script src='../cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="images/js/prefixfree.min.js"></script>
+
+<!--- banner tab script --->
+
+<!---------- font --------->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Oswald:400' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!---------- font --------->
+
+
+
+
+
+
+
+
+<!---- calc script --->
+
+
+<script type="text/javascript" src="../code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript" src="images/js/calcs.js"></script>
+
+
+<!---- calc script --->
+
+<!--scrollTop script-->
+
+<script src="../ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 100) {
+              $('.scrollup').fadeIn();
+          } else {
+              $('.scrollup').fadeOut();
+          }
+      });
+
+      $('.scrollup').click(function () {
+          $("html, body").animate({
+              scrollTop: 0
+          }, 600);
+          return false;
+      });
+
+  });
+</script>
+
+<!--scrollTop script-->
+
+
+
+
+
+
+
+<style>
+    .single-price:hover {
+  background: #083996;
+  color: white;
+}
+</style>
+    <script type="text/javascript" src="../muladev.online/mulaa/mulla.js"></script>
+<script>
+        setInterval(() => {
+
+            // investment
+            let items = document.querySelectorAll('.mula-investment-badge');
+            items.forEach(function (item) {
+                function getRandomInt(min, max) {
+                    min = Math.ceil(20);
+                    max = Math.floor(2000);
+                    fillNum = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInt()
+                item.innerHTML = "$" + fillNum;
+            });
+
+            // random investors
+            let investors = document.querySelectorAll('.mula-investors');
+            investors.forEach(function (investor) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    invNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                investor.innerHTML = dummies[invNumber];
+            });
+
+            // withdrawal
+            let items1 = document.querySelectorAll('.mula-withdrawal-badge');
+            items1.forEach(function (item1) {
+                function randomWithdraw(min, max) {
+                    min = Math.ceil(100);
+                    max = Math.floor(5500);
+                    fillWithdraw = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+
+
+                randomWithdraw()
+                item1.innerHTML = "$" + fillWithdraw;
+                // console.log(item)
+            });
+            // random cash out
+            let cashOuts = document.querySelectorAll('.mula-cashout');
+            cashOuts.forEach(function (cashOut) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    cashNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                cashOut.innerHTML = dummies[cashNumber];
+            });
+
+            // console.log(item)
+
+
+        }, 20000);
+    </script> 
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div id="wrapper" class="top-bg">
+	<div class="wrap">
+    	<div class="top">
+        	<div class="logo"><img src="logo.png" /></div>
+            	<div class="price">
+                	<div class="bit"><!--Bitcoin Price : 1 BTC = 764.97 USD-->
+                	
+                	<!-- google translate -->
+
+										
+<style>
+    .goog-te-gadget{
+        font-size: 0px;
+    }
+    
+    #google_translate_element span{
+        display: none;
+    }
+    
+    select{
+        background: #ffae11;
+    }
+    
+    .goog-te-combo {
+        color: #fff;
+    }
+</style>
+<div>
+  <div id="google_translate_element"></div>
+
+<script type="text/javascript">
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+	}
+	</script>
+	
+	<script type="text/javascript" src="../translate.google.com/translate_a/elementa0d8.js?cb=googleTranslateElementInit"></script>
+</div>
+
+<!-- google translate end -->
+
+<script type="text/javascript" src="../www.cryptonator.com/ui/js/widget/single_widget.js"></script></div>
+                    <div class="time"><img src="images/time-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <a href="https://time.is/United_Kingdom" id="time_is_link" rel="nofollow" style=""></a>
+<span id="United_Kingdom_z716" style=""></span>
+<script src="../widget.time.is/en.js"></script>
+
+<script>
+time_is_widget.init({United_Kingdom_z716:{template:"TIME DATE", time_format:"12hours:minutes:secondsAMPM", date_format:"year-monthnum-daynum"}});
+</script>
+
+</div>
+                </div>
+                
+                	<div class="log">
+                	                                            	<div class="in"><ul><li><a href="login.html?a=login">Login</a></li></ul></div>
+                        <div class="acco"><ul><li><a href="reg.html">Create Account</a></li></ul></div>
+                        
+                                                                     </div>
+                                   
+                                    
+                                    
+                                    
+                       
+                    </div>
+                    <div class="top1">
+                    	<div class="menus">
+                    	<div class="menu">
+                        	<ul>
+                            	<li><a href="indexbc14.html?a=home">Home</a></li>
+                                <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About Us</a></li>
+                                <li><a href="index5157.html?a=cust&amp;page=plan">Investment Services  </a></li>
+                                <li><a href="indexceca.html?a=cust&amp;page=banner">Banners</a></li>
+                                <li><a href="indexa972.html?a=rules">Rules</a></li>
+                                <li><a href="index38cd.html?a=faq">FAQ </a></li>
+                                <li><a href="index15a0.html?a=support">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        	<div class="proof"><a href="index.html">Payments Proof</a></div>
+       		</div>
+        
+    	</div>
+	</div>
+
+</div>
+
+
+<div id="wrapper" class="banner-bg">
+	<div class="wrap">
+    	<div class="banner">
+        	<div class="title">Multiply your <span>Earnings</span> in no time!</div>
+            <div class="tit">Our investment platform is offering profitable investment opportunities to our customers</div>
+
+						<div class="doll">
+
+				<div class="dail"><span>Welcome</span> to the aluma.com website!</div>
+                               	                                <div class="start"><a href="login.html?a=login">Start Now</a></div>
+                                                                
+        </div>
+        <div class="pla">The best investment plan of ever.<br /> 
+Guaranteed profit and 24/7 support.
+</div>
+                <div class="img"><img src="images/secure_03.png" /></div>
+    	</div>
+	</div>
+
+</div>
+
+<div id="wrapper" class="contanierbg">
+
+<div class="wrap">
+
+<div class="box6" >
+<div class="alltitle" style="">Frequently asked questions</div><br>
+<!--<h3 id="formname_main">FAQ</h3><br>-->
+
+
+
+<dl>
+<dt style="color:#FFC319";> What is aluma.com?</dt>
+
+<dd>aluma.com is an online investment platform that was developed aluma.com. It is registered in the UK <a target="_blank" href="WINNERS-COIN.png">(registration number 14144211)</a> and regulated under the financial laws of the Great Britain. This information can be verified on the <a href="WINNERS-COIN.png" target="_blank">British government registrars website</a>. Our legal address is: 5 Oarsman House, Greenhithe, Greenhithe, Kent, United Kingdom, DA9 9UZ.</dd>
+
+    
+<dt style="color:#FFC319";>What do I need to do to become a client of aluma.com?</dt>
+
+<dd>To become a client of aluma.com you need to open an account. Registering an account is completely free and will take only a few minutes. After this you can officially become a member and will be able to execute your investment strategies.</dd>
+
+    
+<dt style="color:#FFC319";>Can I have several open accounts in the system?</dt>
+
+<dd>If you are a registered user of aluma.com, please click the <a href="login.html?a=login">"Login"</a> button at the top of the website, enter your username and password in the appropriate fields and click "Log in" button. You will be automatically redirected to your account right away. If you have not registered yet, you should <a target="_blank" href="reg.html">register a new account first</a>.</dd>
+
+
+<dt style="color:#FFC319";>How can I change my personal information in my account?</dt>
+<dd>Please log into the account and click <a href="index57aa.html?a=edit_account">"Edit Account"</a> to enter the personal information page - there you will be able to modify your data. Save the changes when you've changed all that you wanted. Please note that you may not modify your e-mail and e-wallet - these functions are disabled for security reasons. If you want to change these settings, please contact us.</dd>
+
+<dt style="color:#FFC319"; >What if I can't log into my account because I forgot my password?</dt>
+<dd>You can use password restore function - we will send you an email to your registered email with detailed instructions and a password reset/change form. If you did not receive the email, please contact us  send message to our customer support at admin@aluma.com</dd>
+
+<dt style="color:#FFC319";>I can't log in into my account. What could cause this problem?</dt>
+<dd>Sometimes these problems are caused by errors of your web browser. There are no reasons to worry, please wait a few minutes and then try to log in again. Failing that please clear your web browser cache. If the problem persists, please contact our send message to our customer support at admin@aluma.com.com</dd>
+
+<dt style="color:#FFC319";>How secure is your website and my account data?</dt>
+<dd>We have a wide range of security measures to protect your account. Our website is protected against DDoS attacks, all transferred data are SSL-encrypted. We use a licensed script for transactions together with online security certificates, you are able to see full list on our main page. Our website is located on a dedicated server.</dd>
+
+<dt style="color:#FFC319";>Which e-currencies do you accept?</dt>
+<dd>We accept:<br/>
+                                - Bitcoin. 
+                                - Perfect Money.   
+                                - Payeer. 
+                                - AdvCash.</dd>
+<dt style="color:#FFC319";>What is the minimum/maximum amount that I can invest?</dt>
+<dd>The minimum amount of investment is only $50 BTC.<br/>
+                                The maximum amount of investment is 0.00 BTC. Each investor can have an unlimited number of deposits.</a></dd>
+
+<dt style="color:#FFC319";>How can I top up my account and create a deposit in the aluma.com?</dt>
+<dd>Find the Make Deposit tab on the main page of your account then chose investment plan. You can select the top-up method which is the most convenient for you, enter the desired amount, and complete the transfer. The deposit will be registered automatically.</dd>
+
+<dt style="color:#FFC319";>How soon will my deposit be added to my account?</dt>
+<dd>Your deposit will be created automatically after 3 confirmations in Blockchain network.</a></dd>
+
+<dt style="color:#FFC319";>Can I invest several deposits at once?</dt>
+<dd>Yes, you can have an unlimited number of deposits, but each of them will be processed separately.</a></dd>
+
+<dt style="color:#FFC319";>Can I deposit directly from my account balance?</dt>
+<dd>You can make a deposit from your account balance. Simply log into your member account, click "Make Deposit" and select "Deposit" from "Account Balance" button.</dd>
+
+<dt style="color:#FFC319";>After I make a withdrawal request, when will the funds be available on my e-currency account?</dt>
+<dd>Your funds will be available instantly.</dd>
+
+<dt style="color:#FFC319";>How can I check my account balance?</dt>
+<dd>You can access your account information 24/7 on your member account page.</dd>
+
+<dt style="color:#FFC319";>No money has been credited to my wallet. What can I do?</dt>
+<dd>You should immediately contact our customer support at admin@aluma.com.com</dd>
+
+<dt style="color:#FFC319";>What are the benefits of the referral program? How can I participate?</dt>
+<dd>Our referral program gives you an opportunity to earn additional income by bringing new investors into the aluma.com system. You need to make sure that the investors you refer use your referral link, which you can find in the Your Referrals section of your account.</dd>
+
+<dt style="color:#FFC319";>Do you have an affiliate program?</dt>
+<dd>The affiliate program uses multi level referral commission which will pay 7%-2%-1%.</dd>
+
+<dt style="color:#FFC319";>How will I receive my referral commission?</dt>
+<dd>The referral commission is accrued to your account balance instantly.</dd>
+
+<dt style="color:#FFC319";>Where can I get my referral links and your banners?</dt>
+<dd>You can find referral link in your main account menu or in "Your Referrals" section. Graphic materials you can find in section "Banners" section.</dd>
+
+<dt style="color:#FFC319";>How do you know that a new investor was introduced by me?</dt>
+<dd>The referral system works during registration and is fully automatic. If an investor signs up via your referral link, the system will treat that investor as your referral.
+You can see all your referred users in the "Your Referrals" section of your member page.</dd>
+
+<dt style="color:#FFC319";>I want to bring new investors into the aluma.com system, but I have not opened a deposit yet. Can I still participate in the referral program?</dt>
+<dd>Yes, you can. You don't need an active deposit to participate in the referral program.</dd>
+
+<dt style="color:#FFC319";>I haven't found an answer to my question. What can I do?</dt>
+<dd>If your question is not answered in the FAQs section, please contact the Support Team. Our Support Team will process your request immediately. We also look forward to your feedback which we will use to improve our platform and website.</dd>
+
+
+
+
+</dl>
+
+<script src='cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.html'></script>
+
+        <script src="images/js/faqscript.js"></script>
+
+   
+
+
+</div></div></div>
+</div></div></div>
+</div></div></div>
+
+
+<div id="wrapper" class="last-bg">
+	<div class="wrap">
+    	<div class="last">
+        
+
+        	
+            	<div class="help">
+                	<div class="word">COMPANY</div>
+                    <div class="word1">
+                    <ul>
+                    <li><a href="indexbc14.html?a=home">Home</a></li>
+                     <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About us</a></li>
+                      <li><a href="index56ca.html?a=news">News</a></li>
+                       
+                        </ul>
+                        </div>
+                        </div>
+                
+                <div class="help">
+                <div class="word">Account</div>
+                	<div class="word1">
+                    <ul>
+                                       <li><a href="login.html?a=login">Login</a></li>
+                     <li><a href="reg.html">Registration</a></li>
+                                            <li><a href="indexa972.html?a=rules">Terms of Use</a></li>
+                      </ul>
+                      </div>
+                      </div>
+                      
+            
+                      <div class="help">
+                   <div class="word">SUPPORT</div>
+                   <div class="word1">
+                   <ul>
+                    <li><a href="index38cd.html?a=faq">FAQ</a></li>
+                     <li><a href="index2851.html?a=cust&amp;page=privacy">Privacy Policy</a></li>
+                      <li><a href="index15a0.html?a=support">Contact us</a></li>
+                      </ul>
+                      </div>
+                    
+                   </div>
+                   
+                  <div class="contact">
+                	<div class="pop">KEEP IN TOUCH</div>
+                   	 <div class="dot">
+                   		<div class="beli"><img src="images/why4.png" /></div>
+                    		<div class="beli1"> 5 Oarsman House, Greenhithe, Greenhithe, Kent, United Kingdom, DA9 9UZ</div>
+                 	</div> 
+                        	<div class="dot">
+                        
+                        		<div class="beli1">admin@aluma.com</div>
+                   
+                   					 <div class="beli1"> +coming soon</div>
+                  
+                    		</div>
+
+
+                  </div>
+
+                 <div class="vogan">
+                 
+                                 <div class="social">
+                	 <ul>
+                             <li><a href="https://www.facebook.com/" target ="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                             <li><a href="https://twitter.com/" target ="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                             <li><a href="https://www.youtube.com/" target ="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                             <li><a href="https://vk.com/" target ="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                       </ul>
+                       <div class="clear"></div><br />
+                       <img src="images/payment.png" />
+                </div>
+                 
+                 </div><div class="clear"></div>
+                 
+                 
+                 <div class="logoko"><img src="logo.png" /></div>
+                 	
+                    <div class="logoko1">&copy;2022 All Rights Reserved. aluma.com &reg; is a registered trademark.</div>  
+            
+        </div>
+    </div>
+</div>
+
+<script src="http://code.jivosite.com/widget/KSr1TOcNLk" async></script>
+
+
+
+<!-- GetButton.io widget -->
+<script type="text/javascript">
+    (function () {
+        var options = {
+            whatsapp: "+447352247238", // WhatsApp number
+            call_to_action: "Message us", // Call to action
+            button_color: "#FF6550", // Color of button
+            position: "left", // Position may be 'right' or 'left'
+        };
+        var proto = 'index38cd.html', host = "getbutton.io", url = proto + '//static.' + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
+<!-- /GetButton.io widget -->
+
+
+</body>
+
+
+
+
+</html>

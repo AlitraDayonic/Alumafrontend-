@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluma - Account Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .account-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .account-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .account-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .account-type {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .account-number {
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .account-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #868e96;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .secondary-btn {
+            background: #f1f3f5;
+            color: #333;
+        }
+
+        .secondary-btn:hover {
+            background: #e9ecef;
+        }
+
+        .transactions-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #f1f3f5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #e9ecef;
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .transaction-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .credit-icon {
+            background: #d3f9d8;
+            color: #2f9e44;
+        }
+
+        .debit-icon {
+            background: #ffe0e0;
+            color: #c92a2a;
+        }
+
+        .neutral-icon {
+            background: #e7f5ff;
+            color: #1971c2;
+        }
+
+        .transaction-details {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .transaction-date {
+            font-size: 13px;
+            color: #868e96;
+        }
+
+        .transaction-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-completed {
+            background: #d3f9d8;
+            color: #2f9e44;
+        }
+
+        .status-pending {
+            background: #fff3bf;
+            color: #f08c00;
+        }
+
+        .status-failed {
+            background: #ffe0e0;
+            color: #c92a2a;
+        }
+
+        .transaction-amount {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .credit-amount {
+            color: #2f9e44;
+        }
+
+        .debit-amount {
+            color: #c92a2a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #ffe0e0;
+            color: #c92a2a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            .account-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-amount {
+                font-size: 28px;
+            }
+
+            .transaction-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .transaction-details {
+                width: 100%;
+            }
+
+            .transaction-amount {
+                text-align: left;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">aluma</div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-name" id="userName">Loading...</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <!-- Account Cards -->
+        <div class="account-cards" id="accountCards">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading your accounts...</p>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div class="transactions-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Transactions</h2>
+                <select id="accountFilter" class="filter-btn" onchange="filterTransactions()" style="cursor: pointer;">
+                    <option value="">All Accounts</option>
+                </select>
+            </div>
+            <div class="transaction-list" id="transactionList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading transactions...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+        const AUTH_TOKEN_KEY = 'aluma_access_token';
+
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+        
+        function getAuthToken() {
+            return localStorage.getItem(AUTH_TOKEN_KEY) || sessionStorage.getItem(AUTH_TOKEN_KEY);
+        }
+
+        function checkAuth() {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        async function apiRequest(endpoint, options = {}) {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    ...options,
+                    headers
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return null;
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || 'Request failed');
+                }
+
+                return data;
+            } catch (error) {
+                console.error('API request failed:', error);
+                showError(error.message || 'Failed to load data. Please try again.');
+                return null;
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function formatCurrency(amount, currency = 'USD') {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            if (date.toDateString() === today.toDateString()) {
+                return 'Today';
+            } else if (date.toDateString() === yesterday.toDateString()) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined
+                });
+            }
+        }
+
+        function getTransactionIcon(type) {
+            const icons = {
+                'buy': '📈',
+                'sell': '📉',
+                'deposit': '💰',
+                'withdrawal': '💸',
+                'dividend': '💵',
+                'fee': '📋',
+                'adjustment': '⚙️',
+                'transfer': '🔄'
+            };
+            return icons[type] || '📄';
+        }
+
+        // ============================================
+        // DATA LOADING FUNCTIONS
+        // ============================================
+
+        async function loadUserProfile() {
+    const data = await apiRequest('/users/me');
+    if (data && data.data) {
+        const user = data.data.user || data.data;
+        document.getElementById('userAvatar').textContent = 
+            (user.first_name || user.username || 'U')[0].toUpperCase();
+    }
+}
+
+        let userAccounts = [];
+
+        async function loadAccounts() {
+            const data = await apiRequest('/accounts');
+            const container = document.getElementById('accountCards');
+            const accountFilter = document.getElementById('accountFilter');
+            
+            if (!data || !data.data || !data.data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏦</div>
+                        <p>No accounts found. Create your first account to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            userAccounts = Array.isArray(data.data) ? data.data : (data.data.accounts || []);
+
+            // Update account filter dropdown
+            accountFilter.innerHTML = '<option value="">All Accounts</option>' + 
+                userAccounts.map(acc => 
+                    `<option value="${acc.id}">${acc.account_name || acc.account_type}</option>`
+                ).join('');
+
+            container.innerHTML = userAccounts.map(account => {
+                const totalValue = parseFloat(account.total_value || account.cash_balance || 0);
+                const cashBalance = parseFloat(account.cash_balance || 0);
+                const positionsCount = parseInt(account.positions_count || 0);
+
+                return `
+                    <div class="account-card" data-account-id="${account.id}">
+                        <div class="account-type">${account.account_type || 'Account'}</div>
+                        <div class="account-number">${account.account_number || '****'}</div>
+                        <div class="balance-label">Total Value</div>
+                        <div class="balance-amount">${formatCurrency(totalValue, account.currency)}</div>
+                        
+                        <div class="account-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Cash Balance</div>
+                                <div class="stat-value">${formatCurrency(cashBalance, account.currency)}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Positions</div>
+                                <div class="stat-value">${positionsCount}</div>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="action-btn primary-btn" onclick="viewTransactions('${account.id}')">Activity</button>
+                            <button class="action-btn secondary-btn" onclick="viewDetails('${account.id}')">Details</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadTransactions(accountId = null) {
+            const container = document.getElementById('transactionList');
+            
+            // If specific account selected, load its transactions
+            if (accountId) {
+                const data = await apiRequest(`/accounts/${accountId}/activity?limit=20`);
+                
+                if (!data || !data.data || !data.data.transactions || data.data.transactions.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No transactions found for this account.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                displayTransactions(data.data.transactions);
+            } else {
+                // Load transactions from all accounts
+                if (userAccounts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No transactions found.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Get transactions from first account or all accounts
+                const firstAccountId = userAccounts[0].id;
+                const data = await apiRequest(`/accounts/${firstAccountId}/activity?limit=20`);
+                
+                if (data && data.data && data.data.transactions) {
+                    displayTransactions(data.data.transactions);
+                }
+            }
+        }
+
+        function displayTransactions(transactions) {
+            const container = document.getElementById('transactionList');
+
+            if (!transactions || transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No transactions found.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = transactions.map(txn => {
+                const amount = parseFloat(txn.amount || 0);
+                const isCredit = amount > 0;
+                const type = txn.type || 'transaction';
+                
+                let iconClass = 'neutral-icon';
+                let amountClass = '';
+                let sign = '';
+
+                if (type === 'deposit' || type === 'dividend' || type === 'sell') {
+                    iconClass = 'credit-icon';
+                    amountClass = 'credit-amount';
+                    sign = '+';
+                } else if (type === 'withdrawal' || type === 'buy' || type === 'fee') {
+                    iconClass = 'debit-icon';
+                    amountClass = 'debit-amount';
+                    sign = '-';
+                } else if (isCredit) {
+                    iconClass = 'credit-icon';
+                    amountClass = 'credit-amount';
+                    sign = '+';
+                } else if (amount < 0) {
+                    iconClass = 'debit-icon';
+                    amountClass = 'debit-amount';
+                    sign = '';
+                }
+
+                const statusClass = `status-${txn.status || 'completed'}`;
+                const icon = getTransactionIcon(type);
+                
+                return `
+                    <div class="transaction-item">
+                        <div class="transaction-details">
+                            <div class="transaction-icon ${iconClass}">${icon}</div>
+                            <div class="transaction-info">
+                                <div class="transaction-name">
+                                    ${txn.description || type.charAt(0).toUpperCase() + type.slice(1)}
+                                    <span class="transaction-status ${statusClass}">${txn.status || 'completed'}</span>
+                                </div>
+                                <div class="transaction-date">${formatDate(txn.created_at)}</div>
+                            </div>
+                        </div>
+                        <div class="transaction-amount ${amountClass}">
+                            ${sign}${formatCurrency(Math.abs(amount))}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================
+        // ACTION FUNCTIONS
+        // ============================================
+
+     function logout() {
+    localStorage.removeItem('aluma_access_token');
+    localStorage.removeItem('aluma_refresh_token');
+    localStorage.removeItem('aluma_user');
+    sessionStorage.removeItem('aluma_access_token');
+    sessionStorage.removeItem('aluma_refresh_token');
+    sessionStorage.removeItem('aluma_user');
+    window.location.href = 'login.html';
+}
+
+        function viewTransactions(accountId) {
+            document.getElementById('accountFilter').value = accountId;
+            loadTransactions(accountId);
+            
+            // Scroll to transactions section
+            document.querySelector('.transactions-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function viewDetails(accountId) {
+            // Navigate to account details page or show modal
+            window.location.href = `account-details.html?id=${accountId}`;
+        }
+
+        function filterTransactions() {
+            const selectedAccountId = document.getElementById('accountFilter').value;
+            loadTransactions(selectedAccountId || null);
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        async function initializePage() {
+            if (!checkAuth()) return;
+
+            try {
+                await loadUserProfile();
+                await loadAccounts();
+                await loadTransactions();
+            } catch (error) {
+                console.error('Failed to initialize page:', error);
+                showError('Failed to load page data. Please refresh.');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

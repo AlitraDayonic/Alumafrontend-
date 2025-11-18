@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management - Aluma Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --secondary: #3b82f6;
+            --accent: #0ea5e9;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --text: #334155;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f1f5f9;
+            color: var(--text);
+        }
+
+        /* Sidebar - Same as dashboard */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: 30px 0;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .admin-logo {
+            padding: 0 25px 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-logo svg {
+            width: 45px;
+            height: 45px;
+        }
+
+        .admin-logo-text h2 {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .admin-logo-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            padding: 25px 0;
+        }
+
+        .nav-section {
+            padding: 15px 25px 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 14px 25px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            margin: 3px 15px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: white;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Search and Filters */
+        .search-filter-bar {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+        }
+
+        .filter-select {
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Accounts Table */
+        .accounts-section {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--light);
+        }
+
+        th {
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 18px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: rgba(30, 58, 138, 0.02);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-badge.suspended {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .balance-positive {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .balance-negative {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #7c3aed;
+            transform: scale(1.05);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .modal-close {
+            background: var(--light);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(14, 165, 233, 0.05));
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+            flex: 1;
+        }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            flex: 1;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
+        }
+
+        .success-message, .error-message {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar .nav-item span {
+                display: none;
+            }
+
+            .admin-logo-text {
+                display: none;
+            }
+
+            .nav-section {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-group {
+                flex-direction: column;
+            }
+
+            .search-input-wrapper {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="admin-logo">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M50 10 L80 20 L80 45 C80 65 65 80 50 90 C35 80 20 65 20 45 L20 20 Z" 
+                      fill="url(#logoGrad)" opacity="0.3"/>
+                <path d="M50 15 L75 23 L75 45 C75 62 62 75 50 83 C38 75 25 62 25 45 L25 23 Z" 
+                      fill="white"/>
+            </svg>
+            <div class="admin-logo-text">
+                <h2>Aluma</h2>
+                <p>Admin Panel</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-section">Main</div>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="accounts.html" class="nav-item active">
+                <i class="fas fa-wallet"></i>
+                <span>Accounts</span>
+            </a>
+            
+            <div class="nav-section">Management</div>
+            <a href="kyc.html" class="nav-item">
+                <i class="fas fa-id-card"></i>
+                <span>KYC Review</span>
+            </a>
+            <a href="transactions.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="tickets.html" class="nav-item">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Support Tickets</span>
+            </a>
+            
+            <div class="nav-section">System</div>
+            <a href="analytics.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="audit-logs.html" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Audit Logs</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="nav-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Account Management</h1>
+                <p>Manage user accounts and balances</p>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="search-filter-bar">
+            <div class="search-group">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by email, name, or account number...">
+                </div>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="suspended">Suspended</option>
+                </select>
+                <button class="btn btn-primary" onclick="searchAccounts()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- Accounts Table -->
+        <div class="accounts-section">
+            <div id="accountsTable">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading accounts...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    !-- Credit Modal -->
+    <div class="modal" id="creditModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Credit Account</h2>
+                <button class="modal-close" onclick="closeModal('creditModal')">&times;</button>
+            </div>
+            <div class="info-box">
+                <p><strong>Account:</strong> <span id="creditAccountInfo"></span></p>
+                <p><strong>Current Balance:</strong> <span id="creditCurrentBalance"></span></p>
+            </div>
+            <form id="creditForm">
+                <div class="form-group">
+                    <label class="form-label">Amount ($)</label>
+                    <input type="number" class="form-input" id="creditAmount" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason</label>
+                    <textarea class="form-input form-textarea" id="creditReason" required placeholder="Enter reason for credit..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reference (Optional)</label>
+                    <input type="text" class="form-input" id="creditReference" placeholder="e.g., DEPOSIT-2024-001">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('creditModal')">Cancel</button>
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-plus-circle"></i> Credit Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Debit Modal -->
+    <div class="modal" id="debitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Debit Account</h2>
+                <button class="modal-close" onclick="closeModal('debitModal')">&times;</button>
+            </div>
+            <div class="info-box">
+                <p><strong>Account:</strong> <span id="debitAccountInfo"></span></p>
+                <p><strong>Current Balance:</strong> <span id="debitCurrentBalance"></span></p>
+            </div>
+            <form id="debitForm">
+                <div class="form-group">
+                    <label class="form-label">Amount ($)</label>
+                    <input type="number" class="form-input" id="debitAmount" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason</label>
+                    <textarea class="form-input form-textarea" id="debitReason" required placeholder="Enter reason for debit..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reference (Optional)</label>
+                    <input type="text" class="form-input" id="debitReference" placeholder="e.g., WITHDRAWAL-2024-001">
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="allowNegative">
+                        <span>Allow negative balance</span>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('debitModal')">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-minus-circle"></i> Debit Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+        let currentAccountId = null;
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return token;
+        }
+
+        // Get headers
+        function getHeaders() {
+            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        // Show message
+        function showMessage(message, type = 'success') {
+            const messageDiv = document.getElementById(`${type}Message`);
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load accounts
+        async function loadAccounts() {
+            try {
+                const search = document.getElementById('searchInput').value;
+                const status = document.getElementById('statusFilter').value;
+                
+                let url = `${API_BASE_URL}/admin/accounts?limit=50`;
+                if (search) url += `&search=${encodeURIComponent(search)}`;
+                if (status) url += `&status=${status}`;
+                
+                const response = await fetch(url, {
+                    headers: getHeaders()
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load accounts');
+                }
+
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    displayAccounts(data.data);
+                } else {
+                    throw new Error('Invalid response');
+                }
+            } catch (error) {
+                console.error('Error loading accounts:', error);
+                document.getElementById('accountsTable').innerHTML = 
+                    '<p style="text-align:center;color:var(--text-light);padding:40px;">Failed to load accounts</p>';
+            }
+        }
+
+        // Display accounts
+        function displayAccounts(accounts) {
+            if (accounts.length === 0) {
+                document.getElementById('accountsTable').innerHTML = 
+                    '<p style="text-align:center;color:var(--text-light);padding:40px;">No accounts found</p>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Account Number</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            accounts.forEach(account => {
+                const balance = parseFloat(account.cash_balance || 0);
+                const balanceClass = balance >= 0 ? 'balance-positive' : 'balance-negative';
+                
+                html += `
+                    <tr>
+                        <td><strong>${account.account_number || 'N/A'}</strong></td>
+                        <td>${account.first_name || ''} ${account.last_name || ''}</td>
+                        <td>${account.email || 'N/A'}</td>
+                        <td class="${balanceClass}">${formatCurrency(balance)}</td>
+                        <td><span class="status-badge ${account.status || 'active'}">${account.status || 'active'}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-small btn-success" onclick="openCreditModal('${account.id}', '${account.account_number}', ${balance}, '${account.email}')">
+                                    <i class="fas fa-plus"></i> Credit
+                                </button>
+                                <button class="btn-small btn-danger" onclick="openDebitModal('${account.id}', '${account.account_number}', ${balance}, '${account.email}')">
+                                    <i class="fas fa-minus"></i> Debit
+                                </button>
+                                <button class="btn-small btn-info" onclick="viewAdjustments('${account.id}')">
+                                    <i class="fas fa-history"></i> History
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            document.getElementById('accountsTable').innerHTML = html;
+        }
+
+        // Search accounts
+        function searchAccounts() {
+            loadAccounts();
+        }
+
+        // Open credit modal
+        function openCreditModal(accountId, accountNumber, balance, email) {
+            currentAccountId = accountId;
+            document.getElementById('creditAccountInfo').textContent = `${accountNumber} (${email})`;
+            document.getElementById('creditCurrentBalance').textContent = formatCurrency(balance);
+            document.getElementById('creditForm').reset();
+            document.getElementById('creditModal').classList.add('active');
+        }
+
+        // Open debit modal
+        function openDebitModal(accountId, accountNumber, balance, email) {
+            currentAccountId = accountId;
+            document.getElementById('debitAccountInfo').textContent = `${accountNumber} (${email})`;
+            document.getElementById('debitCurrentBalance').textContent = formatCurrency(balance);
+            document.getElementById('debitForm').reset();
+            document.getElementById('debitModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            currentAccountId = null;
+        }
+
+        // Handle credit form
+        document.getElementById('creditForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('creditAmount').value);
+            const reason = document.getElementById('creditReason').value.trim();
+            const reference = document.getElementById('creditReference').value.trim();
+            
+            if (!amount || amount <= 0) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            if (!reason) {
+                showMessage('Please provide a reason', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/accounts/${currentAccountId}/credit`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify({
+                        amount: amount,
+                        reason: reason,
+                        reference: reference || undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Credit failed');
+                }
+                
+                if (data.success) {
+                    showMessage(`Successfully credited ${formatCurrency(amount)} to account`, 'success');
+                    closeModal('creditModal');
+                    await loadAccounts(); // Reload accounts
+                } else {
+                    throw new Error(data.message || 'Credit failed');
+                }
+            } catch (error) {
+                console.error('Credit error:', error);
+                showMessage(error.message, 'error');
+            }
+        });
+
+        // Handle debit form
+        document.getElementById('debitForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('debitAmount').value);
+            const reason = document.getElementById('debitReason').value.trim();
+            const reference = document.getElementById('debitReference').value.trim();
+            const allowNegative = document.getElementById('allowNegative').checked;
+            
+            if (!amount || amount <= 0) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            if (!reason) {
+                showMessage('Please provide a reason', 'error');
+                return;
+            }
+            
+            // Confirm debit action
+            if (!confirm(`Are you sure you want to debit ${formatCurrency(amount)} from this account?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/accounts/${currentAccountId}/debit`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify({
+                        amount: amount,
+                        reason: reason,
+                        reference: reference || undefined,
+                        allow_negative: allowNegative
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Debit failed');
+                }
+                
+                if (data.success) {
+                    showMessage(`Successfully debited ${formatCurrency(amount)} from account`, 'success');
+                    closeModal('debitModal');
+                    await loadAccounts(); // Reload accounts
+                } else {
+                    throw new Error(data.message || 'Debit failed');
+                }
+            } catch (error) {
+                console.error('Debit error:', error);
+                showMessage(error.message, 'error');
+            }
+        });
+
+        // View adjustment history
+        function viewAdjustments(accountId) {
+            // For now, just alert - you can create another page for this
+            alert('Adjustment history feature - coming soon!\n\nAccount ID: ' + accountId);
+            // TODO: Create adjustments history page
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('admin_access_token');
+                localStorage.removeItem('admin_refresh_token');
+                localStorage.removeItem('admin_user');
+                sessionStorage.removeItem('admin_access_token');
+                sessionStorage.removeItem('admin_refresh_token');
+                sessionStorage.removeItem('admin_user');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!checkAuth()) {
+                return;
+            }
+            loadAccounts();
+        });
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchAccounts();
+            }
+        });
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+            

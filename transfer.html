@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluma - Transfer Money</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .page-title {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .transfer-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input.error, .form-select.error {
+            border-color: #ff4757;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .account-balance {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .account-balance-label {
+            font-size: 12px;
+            color: #868e96;
+            margin-bottom: 5px;
+        }
+
+        .account-balance-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .amount-input-wrapper {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .amount-input {
+            padding-left: 45px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quick-amount-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+        }
+
+        .quick-amount-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .transfer-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .summary-label {
+            color: #868e96;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #dee2e6;
+            margin: 15px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .recent-transfers {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .transfer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .transfer-item:hover {
+            background: #e9ecef;
+        }
+
+        .transfer-info {
+            flex: 1;
+        }
+
+        .transfer-recipient {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .transfer-date {
+            font-size: 13px;
+            color: #868e96;
+        }
+
+        .transfer-amount {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .transfer-amount.out {
+            color: #ff4757;
+        }
+
+        .transfer-amount.in {
+            color: #2f9e44;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .modal-icon.success {
+            color: #2f9e44;
+        }
+
+        .modal-icon.error {
+            color: #ff4757;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .modal-message {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #868e96;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .transfer-section {
+                padding: 20px;
+            }
+
+            .quick-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo" onclick="window.location.href='dashboard.html'">aluma</div>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="accounts.html" class="nav-link">Accounts</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="transfer.html" class="nav-link active">Transfer</a>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1>Transfer Money</h1>
+            <p class="page-subtitle">Transfer funds between your accounts instantly and for free</p>
+        </div>
+
+        <!-- Transfer Form -->
+        <div class="transfer-section">
+            <form id="transferForm">
+                <div class="form-group">
+                    <label class="form-label">From Account</label>
+                    <select id="fromAccount" class="form-select" required onchange="updateFromBalance()">
+                        <option value="">Select source account...</option>
+                    </select>
+                    <div class="account-balance" id="fromBalance" style="display: none;">
+                        <div class="account-balance-label">Available Cash Balance</div>
+                        <div class="account-balance-amount">$0.00</div>
+                    </div>
+                    <div class="error-message" id="fromAccountError">Please select a source account</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">To Account</label>
+                    <select id="toAccount" class="form-select" required>
+                        <option value="">Select destination account...</option>
+                    </select>
+                    <div class="error-message" id="toAccountError">Please select a destination account</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Amount</label>
+                    <div class="amount-input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="amount" class="form-input amount-input" 
+                               placeholder="0.00" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="error-message" id="amountError">Insufficient funds</div>
+                    <div class="quick-amounts">
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(100)">$100</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(500)">$500</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(1000)">$1,000</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(5000)">$5,000</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notes (Optional)</label>
+                    <textarea id="notes" class="form-textarea" 
+                              placeholder="Add a note about this transfer..."></textarea>
+                </div>
+
+                <div class="transfer-summary">
+                    <div class="summary-title">Transfer Summary</div>
+                    <div class="summary-row">
+                        <span class="summary-label">Transfer Amount</span>
+                        <span class="summary-value" id="summaryAmount">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Transfer Fee</span>
+                        <span class="summary-value">$0.00 (Free)</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="summaryTotal">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Transfer Money</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Recent Transfers -->
+        <div class="recent-transfers">
+            <h2 class="section-title">Recent Transfers</h2>
+            <div id="recentTransfersList">
+                <div class="empty-state">
+                    <p>Loading recent transfers...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">✓</div>
+            <h2 class="modal-title" id="modalTitle">Transfer Successful!</h2>
+            <p class="modal-message" id="modalMessage">Your transfer has been completed successfully.</p>
+            <button class="btn btn-primary" onclick="closeModal()">Done</button>
+        </div>
+    </div>
+
+    <script>
+       const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+        const AUTH_TOKEN_KEY = 'aluma_access_token';
+
+        let userAccounts = [];
+        let selectedFromAccount = null;
+
+        function getAuthToken() {
+            return localStorage.getItem(AUTH_TOKEN_KEY) || sessionStorage.getItem(AUTH_TOKEN_KEY);
+        }
+
+        function checkAuth() {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        async function apiRequest(endpoint, options = {}) {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    ...options,
+                    headers
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return null;
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('API request failed:', error);
+                return null;
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        async function loadUserProfile() {
+            const data = await apiRequest('/users/me');
+            if (data && data.data && data.data.user) {
+                const user = data.data.user;
+                document.getElementById('userAvatar').textContent = 
+                    (user.firstName || user.username || 'U')[0].toUpperCase();
+            }
+        }
+
+        async function loadAccounts() {
+            const data = await apiRequest('/accounts');
+            if (data && data.data && data.data.accounts) {
+                userAccounts = data.data.accounts.filter(acc => acc.status === 'active');
+                
+                const fromSelect = document.getElementById('fromAccount');
+                const toSelect = document.getElementById('toAccount');
+                
+                const options = userAccounts.map(acc => 
+                    `<option value="${acc.id}" data-balance="${acc.cash_balance}" data-number="${acc.account_number}">
+                        ${acc.account_name || acc.account_type} - ${acc.account_number} (${formatCurrency(acc.cash_balance)})
+                    </option>`
+                ).join('');
+
+                fromSelect.innerHTML = '<option value="">Select source account...</option>' + options;
+                toSelect.innerHTML = '<option value="">Select destination account...</option>' + options;
+            }
+        }
+
+        function updateFromBalance() {
+            const select = document.getElementById('fromAccount');
+            const selectedOption = select.options[select.selectedIndex];
+            const balance = selectedOption.getAttribute('data-balance');
+            
+            if (balance) {
+                const balanceDiv = document.getElementById('fromBalance');
+                balanceDiv.style.display = 'block';
+                balanceDiv.querySelector('.account-balance-amount').textContent = formatCurrency(balance);
+                selectedFromAccount = parseFloat(balance);
+            } else {
+                document.getElementById('fromBalance').style.display = 'none';
+                selectedFromAccount = null;
+            }
+
+            // Update "To" account to exclude selected "From" account
+            const toSelect = document.getElementById('toAccount');
+            const fromValue = select.value;
+            
+            Array.from(toSelect.options).forEach(option => {
+                option.disabled = option.value === fromValue;
+                if (option.value === fromValue) {
+                    option.textContent = option.textContent.replace(' (Current Selection)', '') + ' (Current Selection)';
+                } else {
+                    option.textContent = option.textContent.replace(' (Current Selection)', '');
+                }
+            });
+
+            validateAmount();
+        }
+
+        function setAmount(value) {
+            document.getElementById('amount').value = value;
+            updateSummary();
+        }
+
+        document.getElementById('amount')?.addEventListener('input', updateSummary);
+
+        function updateSummary() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            document.getElementById('summaryAmount').textContent = formatCurrency(amount);
+            document.getElementById('summaryTotal').textContent = formatCurrency(amount);
+            validateAmount();
+        }
+
+        function validateAmount() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const amountError = document.getElementById('amountError');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (selectedFromAccount !== null && amount > selectedFromAccount) {
+                amountError.classList.add('show');
+                submitBtn.disabled = true;
+            } else if (amount <= 0) {
+                amountError.textContent = 'Please enter a valid amount';
+                amountError.classList.add('show');
+                submitBtn.disabled = true;
+            } else {
+                amountError.classList.remove('show');
+                submitBtn.disabled = false;
+            }
+        }
+
+        document.getElementById('transferForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fromAccountId = document.getElementById('fromAccount').value;
+            const toAccountId = document.getElementById('toAccount').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const notes = document.getElementById('notes').value;
+
+            // Validation
+            if (!fromAccountId) {
+                document.getElementById('fromAccountError').classList.add('show');
+                return;
+            }
+
+            if (!toAccountId) {
+                document.getElementById('toAccountError').classList.add('show');
+                return;
+            }
+
+            if (fromAccountId === toAccountId) {
+                showModal('error', 'Error', 'Cannot transfer to the same account');
+                return;
+            }
+
+            if (amount <= 0) {
+                showModal('error', 'Error', 'Please enter a valid transfer amount');
+                return;
+            }
+
+            if (selectedFromAccount && amount > selectedFromAccount) {
+                showModal('error', 'Error', 'Insufficient funds in source account');
+                return;
+            }
+
+            // Show loading
+            showModal('loading', 'Processing...', 'Please wait while we process your transfer');
+
+            // Call API
+            const result = await apiRequest('/funding/transfers', {
+                method: 'POST',
+                body: JSON.stringify({ 
+                    fromAccountId, 
+                    toAccountId, 
+                    amount, 
+                    notes 
+                })
+            });
+
+            if (result && result.success) {
+                showModal('success', 'Transfer Successful!', 
+                    `Successfully transferred ${formatCurrency(amount)} between your accounts.`);
+                resetForm();
+                await loadAccounts();
+                await loadRecentTransfers();
+            } else {
+                showModal('error', 'Transfer Failed', 
+                    result?.message || 'An error occurred while processing your transfer. Please try again.');
+            }
+        });
+
+        async function loadRecentTransfers() {
+            const data = await apiRequest('/funding/transactions?limit=10');
+            const container = document.getElementById('recentTransfersList');
+
+            if (data && data.data && data.data.transactions && data.data.transactions.length > 0) {
+                const transfers = data.data.transactions.filter(t => 
+                    t.type === 'transfer_in' || t.type === 'transfer_out'
+                );
+
+                if (transfers.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><p>No recent transfers</p></div>';
+                    return;
+                }
+
+                container.innerHTML = transfers.map(txn => {
+                    const amount = parseFloat(txn.amount);
+                    const isOut = amount < 0;
+                    const amountClass = isOut ? 'out' : 'in';
+                    const sign = isOut ? '-' : '+';
+
+                    return `
+                        <div class="transfer-item">
+                            <div class="transfer-info">
+                                <div class="transfer-recipient">${txn.description}</div>
+                                <div class="transfer-date">${formatDate(txn.created_at)}</div>
+                            </div>
+                            <div class="transfer-amount ${amountClass}">
+                                ${sign}${formatCurrency(Math.abs(amount))}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                container.innerHTML = '<div class="empty-state"><p>No recent transfers</p></div>';
+            }
+        }
+
+        function showModal(type, title, message) {
+            const modal = document.getElementById('modal');
+            const icon = document.getElementById('modalIcon');
+            const titleEl = document.getElementById('modalTitle');
+            const msg = document.getElementById('modalMessage');
+
+            if (type === 'success') {
+                icon.innerHTML = '✓';
+                icon.className = 'modal-icon success';
+            } else if (type === 'error') {
+                icon.innerHTML = '✕';
+                icon.className = 'modal-icon error';
+            } else if (type === 'loading') {
+                icon.innerHTML = '<div class="spinner"></div>';
+                icon.className = 'modal-icon';
+            }
+
+            titleEl.textContent = title;
+            msg.textContent = message;
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        function resetForm() {
+            document.getElementById('transferForm').reset();
+            document.getElementById('fromBalance').style.display = 'none';
+            document.getElementById('fromAccountError').classList.remove('show');
+            document.getElementById('toAccountError').classList.remove('show');
+            document.getElementById('amountError').classList.remove('show');
+            selectedFromAccount = null;
+            updateSummary();
+        }
+
+        function logout() {
+    localStorage.removeItem('aluma_access_token');
+    localStorage.removeItem('aluma_refresh_token');
+    localStorage.removeItem('aluma_user');
+    sessionStorage.removeItem('aluma_access_token');
+    sessionStorage.removeItem('aluma_refresh_token');
+    sessionStorage.removeItem('aluma_user');
+    window.location.href = 'login.html';
+}
+
+        async function initializePage() {
+            if (!checkAuth()) return;
+
+            try {
+                await loadUserProfile();
+                await loadAccounts();
+                await loadRecentTransfers();
+            } catch (error) {
+                console.error('Failed to initialize:', error);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1246 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta name="viewport" content="width=1200px">
+
+<title>aluma.com</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300italic,300,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="faqstyle.css" type="text/css" />
+<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!--- banner tab script --->
+
+ <script src='../cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="images/js/prefixfree.min.js"></script>
+
+<!--- banner tab script --->
+
+<!---------- font --------->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Oswald:400' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!---------- font --------->
+
+
+
+
+
+
+
+
+<!---- calc script --->
+
+
+<script type="text/javascript" src="../code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript" src="images/js/calcs.js"></script>
+
+
+<!---- calc script --->
+
+<!--scrollTop script-->
+
+<script src="../ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 100) {
+              $('.scrollup').fadeIn();
+          } else {
+              $('.scrollup').fadeOut();
+          }
+      });
+
+      $('.scrollup').click(function () {
+          $("html, body").animate({
+              scrollTop: 0
+          }, 600);
+          return false;
+      });
+
+  });
+</script>
+
+<!--scrollTop script-->
+
+
+
+
+
+
+
+<style>
+    .single-price:hover {
+  background: #083996;
+  color: white;
+}
+</style>
+    <script type="text/javascript" src="../muladev.online/mulaa/mulla.js"></script>
+<script>
+        setInterval(() => {
+
+            // investment
+            let items = document.querySelectorAll('.mula-investment-badge');
+            items.forEach(function (item) {
+                function getRandomInt(min, max) {
+                    min = Math.ceil(20);
+                    max = Math.floor(2000);
+                    fillNum = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInt()
+                item.innerHTML = "$" + fillNum;
+            });
+
+            // random investors
+            let investors = document.querySelectorAll('.mula-investors');
+            investors.forEach(function (investor) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    invNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                investor.innerHTML = dummies[invNumber];
+            });
+
+            // withdrawal
+            let items1 = document.querySelectorAll('.mula-withdrawal-badge');
+            items1.forEach(function (item1) {
+                function randomWithdraw(min, max) {
+                    min = Math.ceil(100);
+                    max = Math.floor(5500);
+                    fillWithdraw = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+
+
+                randomWithdraw()
+                item1.innerHTML = "$" + fillWithdraw;
+                // console.log(item)
+            });
+            // random cash out
+            let cashOuts = document.querySelectorAll('.mula-cashout');
+            cashOuts.forEach(function (cashOut) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    cashNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                cashOut.innerHTML = dummies[cashNumber];
+            });
+
+            // console.log(item)
+
+
+        }, 20000);
+    </script> 
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div id="wrapper" class="top-bg">
+	<div class="wrap">
+    	<div class="top">
+        	<div class="logo"><img src="logo.png" /></div>
+            	<div class="price">
+                	<div class="bit"><!--Bitcoin Price : 1 BTC = 764.97 USD-->
+                	
+                	<!-- google translate -->
+
+										
+<style>
+    .goog-te-gadget{
+        font-size: 0px;
+    }
+    
+    #google_translate_element span{
+        display: none;
+    }
+    
+    select{
+        background: #ffae11;
+    }
+    
+    .goog-te-combo {
+        color: #fff;
+    }
+</style>
+<div>
+  <div id="google_translate_element"></div>
+
+<script type="text/javascript">
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+	}
+	</script>
+	
+	<script type="text/javascript" src="../translate.google.com/translate_a/elementa0d8.js?cb=googleTranslateElementInit"></script>
+</div>
+
+<!-- google translate end -->
+
+<script type="text/javascript" src="../www.cryptonator.com/ui/js/widget/single_widget.js"></script></div>
+                    <div class="time"><img src="images/time-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <a href="https://time.is/United_Kingdom" id="time_is_link" rel="nofollow" style=""></a>
+<span id="United_Kingdom_z716" style=""></span>
+<script src="../widget.time.is/en.js"></script>
+
+<script>
+time_is_widget.init({United_Kingdom_z716:{template:"TIME DATE", time_format:"12hours:minutes:secondsAMPM", date_format:"year-monthnum-daynum"}});
+</script>
+
+</div>
+                </div>
+                
+                	<div class="log">
+                	                                            	<div class="in"><ul><li><a href="login.html?a=login">Login</a></li></ul></div>
+                        <div class="acco"><ul><li><a href="reg.html">Create Account</a></li></ul></div>
+                        
+                                                                     </div>
+                                   
+                                    
+                                    
+                                    
+                       
+                    </div>
+                    <div class="top1">
+                    	<div class="menus">
+                    	<div class="menu">
+                        	<ul>
+                            	<li><a href="indexbc14.html?a=home">Home</a></li>
+                                <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About Us</a></li>
+                                <li><a href="index5157.html?a=cust&amp;page=plan">Investment Services  </a></li>
+                                <li><a href="indexceca.html?a=cust&amp;page=banner">Banners</a></li>
+                                <li><a href="indexa972.html?a=rules">Rules</a></li>
+                                <li><a href="index38cd.html?a=faq">FAQ </a></li>
+                                <li><a href="index15a0.html?a=support">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        	<div class="proof"><a href="index.html">Payments Proof</a></div>
+       		</div>
+        
+    	</div>
+	</div>
+
+</div>
+
+
+<div id="wrapper" class="banner-bg">
+	<div class="wrap">
+    	<div class="banner">
+        	<div class="title">Multiply your <span>Earnings</span> in no time!</div>
+            <div class="tit">Our investment platform is offering profitable investment opportunities to our customers</div>
+
+						<div class="doll">
+
+				<div class="dail"><span>Welcome</span> to aluma.com <span>website!</span></div>
+                               	                                <div class="start"><a href="login.html?a=login"><span>Login</span></a></div>
+                                                                
+                                
+                                                                <div class="start"><a href="reg.html">Start Now</a></div>
+                                                                
+        </div>
+        <div class="pla">The best investment plan of ever.<br /> 
+Guaranteed profit and 24/7 support.
+</div>
+                <div class="img"><img src="images/secure_03.png" /></div>
+    	</div>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+<div id="wrapper" class="plan-bg">
+
+	<div class="wrap">
+
+    	<div class="plan">
+
+        	<div class="hour">
+
+        	<div class="num">20%</div>
+
+            <div class="num1">AFTER 48 HOURS</div>
+            
+            <div class="num2"> <span>Minimum:</span> $50 BTC</div>
+
+            <div class="num2">  <span>Maximum:</span> $199 BTC</div>
+
+            <div class="num2"> <span>Instant</span> Payments</div>
+            
+            <div class="num2"> <span>Referral</span> Commission</div>
+            
+            <div class="num2"> <span>24/7 online</span> Support</div>
+
+            
+
+            
+
+        	</div>
+
+            
+
+            <div class="hour">
+
+        	<div class="num">50%</div>
+
+            <div class="num1">AFTER 72 HOURS</div>
+            
+            <div class="num2"> <span>Minimum:</span> $200 BTC</div>
+
+            <div class="num2">  <span>Maximum:</span> $999 BTC</div>
+
+            <div class="num2"> <span>Instant</span> Payments</div>
+            
+            <div class="num2"> <span>Referral</span> Commission</div>
+            
+            <div class="num2"> <span>24/7 online</span> Support</div>
+
+          
+
+            
+
+        	</div>
+
+        
+
+        
+
+        
+
+            <div class="hour">
+
+        	<div class="num">100%</div>
+
+            <div class="num1">AFTER 96 HOURS</div>
+            
+            <div class="num2"> <span>Minimum:</span> $1,000 BTC</div>
+
+            <div class="num2">  <span>Maximum:</span> $5,000 BTC</div>
+
+            <div class="num2"> <span>Instant</span> Payments</div>
+            
+            <div class="num2"> <span>Referral</span> Commission</div>
+            
+            <div class="num2"> <span>24/7 online</span> Support</div>
+
+          
+
+            
+
+        	</div>
+
+        
+
+        
+
+        
+
+            <div class="hour">
+
+        	<div class="num">200%</div>
+
+            <div class="num1">AFTER 120 HOURS</div>
+            
+            <div class="num2"> <span>Minimum:</span> $5001 BTC</div>
+
+            <div class="num2">  <span>Maximum:</span> $0.00 BTC</div>
+
+            <div class="num2"> <span>Instant</span> Payments</div>
+            
+            <div class="num2"> <span>Referral</span> Commission</div>
+            
+            <div class="num2"> <span>24/7 online</span> Support</div>
+
+
+           
+
+            
+ 
+        	</div>
+            
+            <!--div class="calci">
+            
+            <div class="culat"><img src="images/calci_03.png" /></div>
+            
+            <div class="culver">
+            
+<table cellpadding="10" style="line-height: 0px;     padding: 0px 0px 0px 0px;    font-family: 'Source Sans Pro', sans-serif; width:100%;">
+<tr>
+<td style="color:#fff;">Select plan</td><td style="color:#fff;">Deposit amount(&#579;)</td><td style="color:#fff;">Total profit %</td><td style="color:#fff;">Total profit in &#579;</td></tr>
+<tr>
+
+
+<td><select id="calc_plan" class="opts" style="     width: 230px;
+    border: 1px solid #ffc31d;
+    border-radius: 0px;
+    outline: none;
+    padding: 13px 5px;
+    color: #0c0c0e;
+    background: #ffc31d;
+    border-radius: 4px;">
+
+ 		<!-- <option value>Select</option>
+
+		<option value="1" class="opts">150 After 1 day</option>
+
+		<option value="2" class="opts">300% After 3 days</option>
+
+		<option value="3" class="opts">2000% After 20 days</option>
+        
+        <option value="4" class="opts">10000% After 50 days</option>
+        
+        
+
+				</select></td> 
+
+ 
+
+
+<td><input id="inv_amount" value="" name="limitedtextfield" type="text" onkeydown="limitText(this.form.limitedtextfield,this.form.countdown,8);" onkeyup="limitText(this.form.limitedtextfield,this.form.countdown,8);" maxlength="8" class="inpts1"  style="     width: 220px;
+    border: transparent;
+    border-radius: 0px;
+    outline: none;
+    padding: 7px 7px;
+    color: #ffffff;
+    background: rgba(46, 89, 39, 0.45);
+    font-size: 20px;"></td>
+   
+    
+    
+    <td><input value="" id="assign_per" disabled="disabled" type="text" class="inpts1" 
+    style="width: 220px;
+    border: transparent;
+    border-radius: 0px;
+    outline: none;
+    padding: 7px 7px;
+    color: #ffffff;
+    background: rgba(46, 89, 39, 0.45);
+    font-size: 20px;" value="370%" /></td>
+    
+    
+    
+    <td><input value="" id="total_return" disabled="disabled" type="text" class="inpts1"  style="    width: 220px;
+    border: transparent;
+    border-radius: 0px;
+    outline: none;
+    padding: 7px 7px;
+    color: #ffffff;
+    background: rgba(46, 89, 39, 0.45);
+    font-size: 20px;" value="$925"/></td>
+
+</tr>
+
+
+
+
+
+
+</table>
+
+<!---- calc script >
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="../images/js/calcs.js"></script>
+
+<!---- calc script --->
+
+       
+       
+            
+            </div>
+
+        
+
+        </div>
+
+        
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- <video width="100%" controls>
+  <source src="winner.mp4" type="video/mp4">
+  <source src="mov_bbb.html" type="video/ogg">
+  Your browser does not support HTML video.
+</video> -->
+
+<center><h2>
+Video About Our Website
+<a href="index.html" target="_blank">https://aluma.com</a>.
+</h2></center>
+
+
+<div id="wrapper" class="secure-bg">
+
+	<div class="wrap">
+
+    	<div class="secure">
+
+        	<div class="intr">
+
+            	<div class="pic"><img src="images/plan1_03.png" /></div>
+
+                <div class="rate">AUTOMATIC INTEREST RATES</div>
+
+                <div class="rate1">Your hourly interests are automatically added to your account. You don't have to do anything after making<br /> your deposits. Minimum deposit is $50 BTC, and you<br /> will earn every day.</div>
+
+                <div class="rate2"><a href="index1fa7.html?a=cust&amp;page=aboutus">RATES</a></div>
+
+            </div>
+
+            
+
+            <div class="intr">
+
+            	<div class="pic"><img src="images/planpic2_03.png" /></div>
+
+                <div class="rate">INSTANT WITHDRAWALS</div>
+
+                <div class="rate1">One thing that makes us stand out from other Bitcoin<br /> mining platforms is we offer instant withdrawal. You'll<br /> get to enjoy instant withdrawals with no withdrawal<br /> fees attached.</div>
+
+                <div class="rate2"><a href="index1fa7.html?a=cust&amp;page=aboutus">Features</a></div>
+
+            </div>
+
+            
+
+            
+
+            <div class="intr">
+
+            	<div class="pic"><img src="images/planpic3_03.png" /></div>
+
+                <div class="rate">SAFE & SECURE</div>
+
+                <div class="rate1">Dedicated servers, secured with AVG antivirus and<br /> malware program. All information processed on our<br /> website is encrypted with EV SSL SGC and powered by Comodo.</div>
+
+				               
+
+                <div class="rate2"><a href="reg.html">REgister Now</a></div>
+
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<div id="wrapper" class="welcome-bg">
+
+	<div class="wrap">
+
+    	<div class="welcome">
+
+        	<div class="bit">
+
+            	<div class="head">Welcome to  <span>aluma.com!</span></div>
+
+                <p>aluma.com invites investors to mutually beneficial cooperation to obtain consistently high revenues from International market of 
+
+digital currency. The world financial system has shown its inconsistency. Due to the mass of shortcomings in it, the world and 
+
+individual countries in particular the last decades are experiencing serious economic shocks. The financial crisis has long 
+
+outgrown the chronic form and its waves are repeated more and more often. <br /><br />
+
+
+
+Against this background for many serious businessmen digital currencies for mutual settlements look much more attractive than 
+
+dollars, euros and, much less, the Russian ruble. As a result of this preference, stable growth of the rate of the digital
+
+currency has become. For example consider the change in the value of the most popular digital currency - Bitcoin, which appeared 
+
+on the exchanges in 2009 and cost less 8/1000 dollars.
+
+2010 - $ 0.50;
+2013 - $ 600;
+2016 - 1000 $;
+December 2017 - $ 14200.</p>
+
+                <div class="link"><a href="index1fa7.html?a=cust&amp;page=aboutus">more</a></div>
+
+            </div>
+
+            	<div class="certifi">
+
+                	<div class="pict">
+
+                    
+
+                    <!-- thumbnail image wrapped in a link -->
+
+<a href="#img1">
+
+  <img src="WINNERCOIN.png" class="thumbnail">
+
+</a>
+
+
+
+<!-- lightbox container hidden with CSS -->
+
+<a href="#_" class="lightbox" id="img1">
+
+  <img src="WINNERCOIN.png">
+
+</a>
+
+                    
+
+                    </div>
+
+                    <div class="regi">
+
+                    	<div class="uk">Registered UK<br /> Company</div>
+
+                        <div class="uk1">OE017129</div>
+
+                    </div>
+
+                    
+
+                    <div class="view">
+
+                    	<div class="cate"><a href="WINNERCOIN.png" target="_blank">View Certificate</a></div>
+
+                        <div class="info"><a href="WINNERCOIN.png" target="_blank">Full Information</a></div>
+
+                    </div>
+
+                </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="../s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+  {
+  "width": "100%",
+  "height": "600",
+  "defaultColumn": "overview",
+  "screener_type": "crypto_mkt",
+  "displayCurrency": "USD",
+  "colorTheme": "light",
+  "locale": "en"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+
+
+<div id="wrapper" class="referal-bg">
+
+	<div class="wrap">
+
+    	<div class="referal">
+
+        	<div class="bene"><span>aluma.com</span> Using Benefits! </div>
+
+            	<div class="proo">
+
+                	<div class="ture"><img src="images/ref1_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">Professional Team</div>
+
+                        <div class="tainer1">We are team of professional traders in digital currency (Forex & Crypto) Exchange and Coins trading who know how to grab the profit end of the day.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref8_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">Instant Withdrawals</div>
+
+                        <div class="tainer1">Get your payment instantly as soon as you request it! Minimum withdrawal is $49.99 BTC. There is no fee for withdrawals of hourly interest.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref2_03.png"/></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">DDOS Protection</div>
+
+                        <div class="tainer1">We are using one of most experienced , professional and trusted DDoS Protection and mitigation provider.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref7_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">Fixed Return</div>
+
+                        <div class="tainer1">Depending on your investment amount.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref3_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">COMODO Essential-SSL Security</div>
+
+                        <div class="tainer1">Our website using Comodo Essential-SSL Security
+
+(Extended Validation SSL) encryption and that confirms that the presented content is the genuine and legitimate.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref6_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">Great Customer Support</div>
+
+
+
+                        <div class="tainer1">We understand how important having reliable support service is to you. Please don't hesitate to contact us should you have any questions and we will </div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref4_03.png" /></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">UK Registered Company</div>
+
+                        <div class="tainer1">We are a legal company registered in the United Kingdom providing its investment services to the members all around the world.</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <div class="proo">
+
+                	<div class="ture"><img src="images/ref5_03.png"/></div>
+
+                    <div class="cont">
+
+                    	<div class="tainer">Referral Incentives</div>
+
+                        <div class="tainer1">Invite your friends and earn our part of their investments! <br />
+
+3 levels: 7% / 2% /1%</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<div id="wrapper" class="affilite-bg">
+
+	<div class="wrap">
+
+    	<div class="affilite">
+
+        	<div class="prog"><span>Affiliate</span> Program</div>
+
+            <p>At aluma.com, we believe there is no better advertisement than satisfied clients. No wonder that majority of our new clients are affiliates from our existing clients. We are proud that our clients like to recommend our financial service to others. Because of this, we are pleased to offer one of the strongest online affiliate programs in the financial service industry, with a high commission rate, customized tools and reports, and timely commission payouts. </p>
+
+            
+
+            	<div class="leve">
+
+                	<div class="sec"><img src="images/ref_03.png" /></div>
+
+                    	<div class="part"><a href="indexceca.html?a=cust&amp;page=banner">Become the partner</a></div>
+
+                        	<div class="part1"><a href="index1fa7.html?a=cust&amp;page=aboutus">Learn More..</a></div>
+
+                </div>
+
+                
+
+                <div class="leve1">
+
+                	<div class="head1">Promote aluma.com</div>
+
+                    <p>Present our project to your friends, family, or any other community, advertise & promote it everywhere<br /> and enjoy the financial benefits. You don't even need an active deposit to receive affiliate commission.</p>
+
+                </div>
+
+                   <div class="leve1">
+
+                	<div class="head1" style="    color: #ffc324;">Get Affiliates & Earn Money</div>
+
+                    <p>Once someone registers through your referral link, he automatically becomes your referral! You<br /> will receive 7% referral commission for every deposit that your direct referral makes from his<br /> BitCoin wallet. We also offer a second level referral commission - 2% and third level 1%</p>
+
+                </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<div id="wrapper" class="lock-bg">
+
+	<div class="wrap">
+
+    	<div class="lock">
+        
+        
+        <div class="trans">
+        <div class="title">Last Deposits 5</div>
+        <!-- Image Table: Start -->
+<!--<table cellspacing=0 cellpadding=2 border=0 width=100%>-->
+<table width="100%" cellpadding="0" cellspacing="0">
+<tbody>
+                                 <tr>
+                      <th>NAME</th>
+                      <th>AMOUNT
+                      </th>
+                      <th>
+                          CURRENCY
+                      </th>
+                  </tr>
+                   <tr>
+                      <td><span class="mula-investors">...</span></td>
+                      <td><span class="mula-investment-badge">...</span>
+                      </td>
+                      <td>
+                          <img src="images/1000.gif">
+                      </td>
+                  </tr>
+
+                  
+                   <tr>
+                      <td><span class="mula-investors">...</span></td>
+                      <td><span class="mula-investment-badge">...</span>
+                      </td>
+                      <td>
+                          <img src="images/1000.gif">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><span class="mula-investors">...</span></td>
+                      <td><span class="mula-investment-badge">...</span>
+                      </td>
+                      <td>
+                          <img src="images/1000.gif">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><span class="mula-investors">...</span></td>
+                      <td><span class="mula-investment-badge">...</span>
+                      </td>
+                      <td>
+                          <img src="images/1000.gif">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><span class="mula-investors">...</span></td>
+                      <td><span class="mula-investment-badge">...</span>
+                      </td>
+                      <td>
+                          <img src="images/1000.gif"
+                      </td>
+                  </tr>
+                  </tbody>
+</table>
+
+        </div>
+        <div class="trans">
+        <div class="title">Last Stats</div>
+        <div class="valu">Total Deposited <span> $ 12115999182.27</span></div>
+        <div class="valu">Total Withdrawal <span>$ 6821629150.16</span></div>
+        <div class="valu">Total Members <span>74750</span></div>
+        <div class="valu">Days Online <span>5823</span></div>
+        </div>
+        <div class="trans">
+        <div class="title">Last Withdrawals 5</div>
+        <!-- Image Table: Start -->
+<!--<table cellspacing=0 cellpadding=2 border=0 width=100%>-->
+<table width="100%" cellpadding="0" cellspacing="0">
+<tbody>
+                                      <tr>
+                      <th>NAME</th>
+                      <th>AMOUNT
+                      </th>
+                      <th>
+                          CURRENCY
+                      </th>
+                  </tr>
+             <tr>
+                  <td><span class="mula-cashout">...</span></td>
+                  <td><span class="mula-withdrawal-badge">...</span></td>
+                  <td><img src="images/1000.gif"></td>
+              </tr>
+              <tr>
+                  <td><span class="mula-cashout">...</span></td>
+                  <td><span class="mula-withdrawal-badge">...</span></td>
+                  <td><img src="images/1000.gif">
+              </tr>
+
+               <tr>
+                  <td><span class="mula-cashout">...</span></td>
+                  <td><span class="mula-withdrawal-badge">...</span></td>
+                  <td><img src="images/1000.gif"></td>
+              </tr>
+               <tr>
+                  <td><span class="mula-cashout">...</span></td>
+                  <td><span class="mula-withdrawal-badge">...</span></td>
+                  <td><img src="images/1000.gif"></td>
+              </tr>
+               <tr>
+                  <td><span class="mula-cashout">...</span></td>
+                  <td><span class="mula-withdrawal-badge">...</span></td>
+                  <td><img src="images/1000.gif">
+              </tr>
+
+              </tbody>
+
+</table>
+
+        </div>
+
+        	<!--<div class="valu">
+
+        	<div class="number">&#579; 3.55416949</div>
+
+            	<div class="number1">Total Deposited</div>
+
+               </div>
+
+               <div class="valu">
+
+        	<div class="number">&#579; 2.70927522</div>
+
+            	<div class="number1">Total Withdrawal</div>
+
+               </div>
+
+               <div class="valu">
+
+        	<div class="number">461</div>
+
+            	<div class="number1">Total Members</div>
+
+               </div>
+
+               <div class="valu">
+
+        	<div class="number">12</div>
+
+            	<div class="number1">Days Online</div>
+
+               </div>
+-->
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<div id="wrapper" class="security-bg">
+
+	<div class="wrap">
+
+    	<div class="security">
+
+        	<div class="secimg"><img src="images/security-img_03.png" /></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div id="wrapper" class="last-bg">
+	<div class="wrap">
+    	<div class="last">
+        
+
+        	
+            	<div class="help">
+                	<div class="word">COMPANY</div>
+                    <div class="word1">
+                    <ul>
+                    <li><a href="indexbc14.html?a=home">Home</a></li>
+                     <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About us</a></li>
+                      <li><a href="index56ca.html?a=news">News</a></li>
+                       
+                        </ul>
+                        </div>
+                        </div>
+                
+                <div class="help">
+                <div class="word">Account</div>
+                	<div class="word1">
+                    <ul>
+                                       <li><a href="login.html?a=login">Login</a></li>
+                     <li><a href="reg.html">Registration</a></li>
+                                            <li><a href="indexa972.html?a=rules">Terms of Use</a></li>
+                      </ul>
+                      </div>
+                      </div>
+                      
+            
+                      <div class="help">
+                   <div class="word">SUPPORT</div>
+                   <div class="word1">
+                   <ul>
+                    <li><a href="index38cd.html?a=faq">FAQ</a></li>
+                     <li><a href="index2851.html?a=cust&amp;page=privacy">Privacy Policy</a></li>
+                      <li><a href="index15a0.html?a=support">Contact us</a></li>
+                      </ul>
+                      </div>
+                    
+                   </div>
+                   
+                  <div class="contact">
+                	<div class="pop">KEEP IN TOUCH</div>
+                   	 <div class="dot">
+                   		<div class="beli"><img src="images/why4.png" /></div>
+                    		<div class="beli1"> 5 Oarsman House, Greenhithe, Greenhithe, Kent, United Kingdom, DA9 9UZ</div>
+                 	</div> 
+                        	<div class="dot">
+                        
+                        		<div class="beli1">admin@aluma.com</div>
+                   
+                   					 <div class="beli1"> +coming soon</div>
+                  
+                    		</div>
+
+
+                  </div>
+
+                 <div class="vogan">
+                 
+                                 <div class="social">
+                	 <ul>
+                             <li><a href="https://www.facebook.com/" target ="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                             <li><a href="https://twitter.com/" target ="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                             <li><a href="https://www.youtube.com/" target ="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                             <li><a href="https://vk.com/" target ="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                       </ul>
+                       <div class="clear"></div><br />
+                       <img src="images/payment.png" />
+                </div>
+                 
+                 </div><div class="clear"></div>
+                 
+                 
+                 <div class="logoko"><img src="logo.png" /></div>
+                 	
+                    <div class="logoko1">&copy;2025 All Rights Reserved. aluma.com &reg; is a registered trademark.</div>  
+            
+        </div>
+    </div>
+</div>
+
+<!-- Smartsupp Live Chat script >
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '549294fd129eb88c9772d10205fcfba2f9da45cc';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
+    <style>
+      #my1Btn {
+  display: block;
+  position: fixed;
+  bottom: -10px;
+  right: 10px;
+  z-index: 999;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#my1Btn:hover {
+  background-color: transparent;
+}
+
+
+      
+  </style>
+
+
+<div id="my1Btn" title="Go to top" class="" style="display: block;"> <a href="https://www.smartsupp.com/widget/549294fd129eb88c9772d10205fcfba2f9da45cc"><img src="chat-with-us.png" ></a></div-->
+
+<script src="http://code.jivosite.com/widget/KSr1TOcNLk" async></script>
+
+
+<!-- GetButton.io widget -->
+<script type="text/javascript">
+    (function () {
+        var options = {
+            whatsapp: "+447352247238", // WhatsApp number
+            call_to_action: "Message us", // Call to action
+            button_color: "#FF6550", // Color of button
+            position: "left", // Position may be 'right' or 'left'
+        };
+        var proto = 'index.html', host = "getbutton.io", url = proto + '//static.' + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
+
+
+</div>
+</body>
+
+
+</html>

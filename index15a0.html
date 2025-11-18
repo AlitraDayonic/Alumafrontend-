@@ -1,0 +1,516 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+<title>aluma.com</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300italic,300,400italic,500,700,500italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="faqstyle.css" type="text/css" />
+<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!--- banner tab script --->
+
+ <script src='../cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="images/js/prefixfree.min.js"></script>
+
+<!--- banner tab script --->
+
+<!---------- font --------->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Oswald:400' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!---------- font --------->
+
+
+
+
+
+
+
+
+<!---- calc script --->
+
+
+<script type="text/javascript" src="../code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript" src="images/js/calcs.js"></script>
+
+
+<!---- calc script --->
+
+<!--scrollTop script-->
+
+<script src="../ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 100) {
+              $('.scrollup').fadeIn();
+          } else {
+              $('.scrollup').fadeOut();
+          }
+      });
+
+      $('.scrollup').click(function () {
+          $("html, body").animate({
+              scrollTop: 0
+          }, 600);
+          return false;
+      });
+
+  });
+</script>
+
+<!--scrollTop script-->
+
+
+
+
+
+
+
+<style>
+    .single-price:hover {
+  background: #083996;
+  color: white;
+}
+</style>
+    <script type="text/javascript" src="../muladev.online/mulaa/mulla.js"></script>
+<script>
+        setInterval(() => {
+
+            // investment
+            let items = document.querySelectorAll('.mula-investment-badge');
+            items.forEach(function (item) {
+                function getRandomInt(min, max) {
+                    min = Math.ceil(20);
+                    max = Math.floor(2000);
+                    fillNum = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInt()
+                item.innerHTML = "$" + fillNum;
+            });
+
+            // random investors
+            let investors = document.querySelectorAll('.mula-investors');
+            investors.forEach(function (investor) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    invNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                investor.innerHTML = dummies[invNumber];
+            });
+
+            // withdrawal
+            let items1 = document.querySelectorAll('.mula-withdrawal-badge');
+            items1.forEach(function (item1) {
+                function randomWithdraw(min, max) {
+                    min = Math.ceil(100);
+                    max = Math.floor(5500);
+                    fillWithdraw = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+
+
+                randomWithdraw()
+                item1.innerHTML = "$" + fillWithdraw;
+                // console.log(item)
+            });
+            // random cash out
+            let cashOuts = document.querySelectorAll('.mula-cashout');
+            cashOuts.forEach(function (cashOut) {
+                function getRandomInvestors(min, max) {
+                    min = Math.ceil(0);
+                    max = Math.floor(3898);
+                    cashNumber = Math.floor(Math.random() * (max - min)) +
+                        min; //The maximum is exclusive and the minimum is inclusive
+
+                }
+                getRandomInvestors()
+                cashOut.innerHTML = dummies[cashNumber];
+            });
+
+            // console.log(item)
+
+
+        }, 20000);
+    </script> 
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div id="wrapper" class="top-bg">
+	<div class="wrap">
+    	<div class="top">
+        	<div class="logo"><img src="logo.png" /></div>
+            	<div class="price">
+                	<div class="bit"><!--Bitcoin Price : 1 BTC = 764.97 USD-->
+                	
+                	<!-- google translate -->
+
+										
+<style>
+    .goog-te-gadget{
+        font-size: 0px;
+    }
+    
+    #google_translate_element span{
+        display: none;
+    }
+    
+    select{
+        background: #ffae11;
+    }
+    
+    .goog-te-combo {
+        color: #fff;
+    }
+</style>
+<div>
+  <div id="google_translate_element"></div>
+
+<script type="text/javascript">
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+	}
+	</script>
+	
+	<script type="text/javascript" src="../translate.google.com/translate_a/elementa0d8.js?cb=googleTranslateElementInit"></script>
+</div>
+
+<!-- google translate end -->
+
+<script type="text/javascript" src="../www.cryptonator.com/ui/js/widget/single_widget.js"></script></div>
+                    <div class="time"><img src="images/time-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <a href="https://time.is/United_Kingdom" id="time_is_link" rel="nofollow" style=""></a>
+<span id="United_Kingdom_z716" style=""></span>
+<script src="../widget.time.is/en.js"></script>
+
+<script>
+time_is_widget.init({United_Kingdom_z716:{template:"TIME DATE", time_format:"12hours:minutes:secondsAMPM", date_format:"year-monthnum-daynum"}});
+</script>
+
+</div>
+                </div>
+                
+                	<div class="log">
+                	                                            	<div class="in"><ul><li><a href="login.html?a=login">Login</a></li></ul></div>
+                        <div class="acco"><ul><li><a href="reg.html">Create Account</a></li></ul></div>
+                        
+                                                                     </div>
+                                   
+                                    
+                                    
+                                    
+                       
+                    </div>
+                    <div class="top1">
+                    	<div class="menus">
+                    	<div class="menu">
+                        	<ul>
+                            	<li><a href="indexbc14.html?a=home">Home</a></li>
+                                <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About Us</a></li>
+                                <li><a href="index5157.html?a=cust&amp;page=plan">Investment Services  </a></li>
+                                <li><a href="indexceca.html?a=cust&amp;page=banner">Banners</a></li>
+                                <li><a href="indexa972.html?a=rules">Rules</a></li>
+                                <li><a href="index38cd.html?a=faq">FAQ </a></li>
+                                <li><a href="index15a0.html?a=support">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        	<div class="proof"><a href="index.html">Payments Proof</a></div>
+       		</div>
+        
+    	</div>
+	</div>
+
+</div>
+
+
+<div id="wrapper" class="banner-bg">
+	<div class="wrap">
+    	<div class="banner">
+        	<div class="title">Multiply your <span>Earnings</span> in no time!</div>
+            <div class="tit">Our investment platform is offering profitable investment opportunities to our customers</div>
+
+						<div class="doll">
+
+				<div class="dail"><span>Welcome</span> to the aluma.com website!</div>
+                               	                                <div class="start"><a href="login.html?a=login">Start Now</a></div>
+                                                                
+        </div>
+        <div class="pla">The best investment plan of ever.<br /> 
+Guaranteed profit and 24/7 support.
+</div>
+                <div class="img"><img src="images/secure_03.png" /></div>
+    	</div>
+	</div>
+
+</div>
+
+
+<div id="wrapper" style="    /*background: url(images/bene_bg.png) no-repeat center;*/
+    background-size: cover;
+    display: inline-table;
+    width: 100%;">
+<div class="wrap">
+<div class="box6" >
+<div class="alltitle"> CONTACT US</div><br>
+<!--<h3 id="formname_main">Support Form</h3><br>-->
+
+<p style="text-align: center;float:left;width: 100%; margin: 11px 0px 33px 0px;">Do you have any questions? We strongly recommend that you start searching for the necessary information in the FAQ section. If you need advice or technical assistance, do not hesitate to contact our specialists. Customer support is available around the clock. You just need to send a letter or a request via the feedback form to promptly receive the necessary assistance. Remember that the more detailed the description of your problem is, the sooner it will be solved. Do not forget to indicate your login, if you are a registered user of the website.</p>
+
+<div style="width:100%;">
+
+<div style="width:60%;float:left;">
+
+<p style="     height: auto;
+              background: #161E44;
+		    color: #ffffff;
+    overflow: hidden;
+    text-align: center;   
+    padding: 10px 0px;
+    font-size: 17px;">SUPPORT FORM</p>
+
+
+
+
+
+
+<script language=javascript>
+
+function checkform() {
+  if (document.mainform.name.value == '') {
+    alert("Please type your full name!");
+    document.mainform.name.focus();
+    return false;
+  }
+  if (document.mainform.email.value == '') {
+    alert("Please enter your e-mail address!");
+    document.mainform.email.focus();
+    return false;
+  }
+  if (document.mainform.message.value == '') {
+    alert("Please type your message!");
+    document.mainform.message.focus();
+    return false;
+  }
+  return true;
+}
+
+</script>
+<div style="width:40%; float:left;">
+<form method=post name=mainform onsubmit="return checkform()"><input type="hidden" name="form_id" value="17619805469453"><input type="hidden" name="form_token" value="d587c02330a48da14f741989798f26f2">
+<input type=hidden name=a value=support>
+<input type=hidden name=action value=send>
+
+ 
+<table cellspacing=0 cellpadding=2 border=0 style="color: #000000;line-height: 54px;">
+<tr> <td>Your Name:</td></tr>
+<tr><td><input type="text" name="name" value="" size=30 class=inpts></td>
+</tr>
+<tr><td>Your Email:</td></tr>
+<tr><td><input type="text" name="email" value="" size=30 class=inpts></td>
+</tr>
+</table>
+</div>
+<div style="    float: left;
+    width: 40%;">
+<table cellspacing=0 cellpadding=2 border=0 style="color: #000000;line-height: 54px;">
+<tr><td>Message:</td></tr>
+<tr><td><textarea name=message cols="45" rows="4"></textarea></td>
+</tr>
+<tr>
+ <td><input type=submit value="Send" class=sbmt></td>
+</tr></table>
+
+</form>
+
+
+
+</div>
+</div>
+
+<div style="    float: right;
+    width: 35%;">
+<p style="     height: auto;
+    width: 100%;
+          background: #161E44;
+		    color: #ffffff;
+    overflow: hidden;
+    text-align: center;    
+    padding: 10px 0px;
+    font-size: 17px;    margin-bottom: 10px;">Contact sitename.com</p>
+<!--<img src="images/support-img.png" />-->
+
+<p><b>Company Address:</b></p>
+<p>5 Oarsman House, Greenhithe, Greenhithe, Kent, United Kingdom, DA9 9UZ</p>
+<p><b>Company Number: </b>14144211</p>
+
+<p><b>Phone Number: </b>+coming soon</p>
+
+<p><b>Email: </b>admin@aluma.ltd</p>
+<div class="clear"></div>
+<!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2492.415980695558!2d-0.11538973423156129!3d51.34026097960806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4875fdf3a2de45b5%3A0xbedd7ec8f9d888a9!2sHigh+St%2C+Purley+CR8+2AD%2C+UK!5e0!3m2!1sen!2sin!4v1490960292786" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>-->
+
+</div><div class="clear"></div><br />
+
+
+
+
+
+</div></div></div>
+</div></div></div>
+</div></div></div>
+
+
+<div id="wrapper" class="last-bg">
+	<div class="wrap">
+    	<div class="last">
+        
+
+        	
+            	<div class="help">
+                	<div class="word">COMPANY</div>
+                    <div class="word1">
+                    <ul>
+                    <li><a href="indexbc14.html?a=home">Home</a></li>
+                     <li><a href="index1fa7.html?a=cust&amp;page=aboutus">About us</a></li>
+                      <li><a href="index56ca.html?a=news">News</a></li>
+                       
+                        </ul>
+                        </div>
+                        </div>
+                
+                <div class="help">
+                <div class="word">Account</div>
+                	<div class="word1">
+                    <ul>
+                                       <li><a href="login.html?a=login">Login</a></li>
+                     <li><a href="reg.html">Registration</a></li>
+                                            <li><a href="indexa972.html?a=rules">Terms of Use</a></li>
+                      </ul>
+                      </div>
+                      </div>
+                      
+            
+                      <div class="help">
+                   <div class="word">SUPPORT</div>
+                   <div class="word1">
+                   <ul>
+                    <li><a href="index38cd.html?a=faq">FAQ</a></li>
+                     <li><a href="index2851.html?a=cust&amp;page=privacy">Privacy Policy</a></li>
+                      <li><a href="index15a0.html?a=support">Contact us</a></li>
+                      </ul>
+                      </div>
+                    
+                   </div>
+                   
+                  <div class="contact">
+                	<div class="pop">KEEP IN TOUCH</div>
+                   	 <div class="dot">
+                   		<div class="beli"><img src="images/why4.png" /></div>
+                    		<div class="beli1"> 5 Oarsman House, Greenhithe, Greenhithe, Kent, United Kingdom, DA9 9UZ</div>
+                 	</div> 
+                        	<div class="dot">
+                        
+                        		<div class="beli1">admin@aluma.com</div>
+                   
+                   					 <div class="beli1"> +coming soon</div>
+                  
+                    		</div>
+
+
+                  </div>
+
+                 <div class="vogan">
+                 
+                                 <div class="social">
+                	 <ul>
+                             <li><a href="https://www.facebook.com/" target ="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                             <li><a href="https://twitter.com/" target ="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                             <li><a href="https://www.youtube.com/" target ="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                             <li><a href="https://vk.com/" target ="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                       </ul>
+                       <div class="clear"></div><br />
+                       <img src="images/payment.png" />
+                </div>
+                 
+                 </div><div class="clear"></div>
+                 
+                 
+                 <div class="logoko"><img src="logo.png" /></div>
+                 	
+                    <div class="logoko1">&copy;2022 All Rights Reserved. aluma.com &reg; is a registered trademark.</div>  
+            
+        </div>
+    </div>
+</div>
+
+<script src="http://code.jivosite.com/widget/KSr1TOcNLk" async></script>
+
+
+
+<!-- GetButton.io widget -->
+<script type="text/javascript">
+    (function () {
+        var options = {
+            whatsapp: "+447352247238", // WhatsApp number
+            call_to_action: "Message us", // Call to action
+            button_color: "#FF6550", // Color of button
+            position: "left", // Position may be 'right' or 'left'
+        };
+        var proto = 'index15a0.html', host = "getbutton.io", url = proto + '//static.' + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
+<!-- /GetButton.io widget -->
+
+
+</body>
+
+
+
+
+</html>

@@ -1,0 +1,19 @@
+dl {
+  width:100%;
+}
+
+dt{
+    cursor: pointer;
+    font-weight: 300;
+    font-size:17px;
+    padding: 1em 1em;
+    background: #161E44;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #f9f9f9;
+}
+
+dd{
+    margin: 0;
+    padding: 2em;
+    background: #fcfcfc
+}

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluma - Investment Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .page-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .account-selector {
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .account-selector:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-card {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #868e96;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .summary-value.positive {
+            color: #2f9e44;
+        }
+
+        .summary-value.negative {
+            color: #ff4757;
+        }
+
+        .summary-change {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .positions-section, .orders-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .trade-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .trade-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #495057;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #f1f3f5;
+            color: #495057;
+        }
+
+        tbody tr {
+            transition: all 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .symbol-cell {
+            font-weight: 700;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .company-name {
+            font-size: 13px;
+            color: #868e96;
+            margin-top: 3px;
+        }
+
+        .positive {
+            color: #2f9e44;
+        }
+
+        .negative {
+            color: #ff4757;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-filled {
+            background: #d3f9d8;
+            color: #2f9e44;
+        }
+
+        .badge-pending {
+            background: #fff3bf;
+            color: #f08c00;
+        }
+
+        .badge-cancelled {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .badge-buy {
+            background: #e7f5ff;
+            color: #1971c2;
+        }
+
+        .badge-sell {
+            background: #ffe0e0;
+            color: #c92a2a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #868e96;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .action-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-link {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .action-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .page-header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .portfolio-summary {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo" onclick="window.location.href='dashboard.html'">aluma</div>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="accounts.html" class="nav-link">Accounts</a>
+                <a href="investment.html" class="nav-link active">Portfolio</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="transfer.html" class="nav-link">Transfer</a>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-top">
+                <div class="page-title">
+                    <h1>Investment Portfolio</h1>
+                    <p class="page-subtitle">Track your holdings and performance</p>
+                </div>
+                <select id="accountSelect" class="account-selector" onchange="loadPortfolio()">
+                    <option value="">All Accounts</option>
+                </select>
+            </div>
+
+            <div class="portfolio-summary">
+                <div class="summary-card">
+                    <div class="summary-label">Total Value</div>
+                    <div class="summary-value" id="totalValue">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Cash Balance</div>
+                    <div class="summary-value" id="cashBalance">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Securities Value</div>
+                    <div class="summary-value" id="securitiesValue">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Gain/Loss</div>
+                    <div class="summary-value" id="totalGainLoss">$0.00</div>
+                    <div class="summary-change" id="totalGainLossPercent">0.00%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Positions</div>
+                    <div class="summary-value" id="positionsCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Positions Section -->
+        <div class="positions-section">
+            <div class="section-header">
+                <h2 class="section-title">Holdings</h2>
+                <button class="trade-btn" onclick="window.location.href='trading.html'">📈 Trade</button>
+            </div>
+
+            <div id="positionsTable">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading your positions...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders Section -->
+        <div class="orders-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Orders</h2>
+                <a href="history.html" class="action-link">View All</a>
+            </div>
+
+            <div id="ordersTable">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading your orders...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+        const AUTH_TOKEN_KEY = 'aluma_access_token';
+
+        let userAccounts = [];
+        let selectedAccountId = null;
+
+        function getAuthToken() {
+            return localStorage.getItem(AUTH_TOKEN_KEY) || sessionStorage.getItem(AUTH_TOKEN_KEY);
+        }
+
+        function checkAuth() {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        async function apiRequest(endpoint, options = {}) {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    ...options,
+                    headers
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return null;
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('API request failed:', error);
+                return null;
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        function formatPercent(value) {
+            const sign = value >= 0 ? '+' : '';
+            return `${sign}${value.toFixed(2)}%`;
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        async function loadUserProfile() {
+            const data = await apiRequest('/users/me');
+            if (data && data.data && data.data.user) {
+                const user = data.data.user;
+                document.getElementById('userAvatar').textContent = 
+                    (user.firstName || user.username || 'U')[0].toUpperCase();
+            }
+        }
+
+        async function loadAccounts() {
+            const data = await apiRequest('/accounts');
+            if (data && data.data && data.data.accounts) {
+                userAccounts = data.data.accounts.filter(acc => acc.status === 'active');
+                
+                const select = document.getElementById('accountSelect');
+                select.innerHTML = '<option value="">All Accounts</option>' +
+                    userAccounts.map(acc =>
+                        `<option value="${acc.id}">${acc.account_name || acc.account_type} - ${acc.account_number}</option>`
+                    ).join('');
+            }
+        }
+
+        async function loadPortfolio() {
+            selectedAccountId = document.getElementById('accountSelect').value;
+            
+            if (selectedAccountId) {
+                await loadSingleAccountPortfolio(selectedAccountId);
+            } else {
+                await loadAllAccountsPortfolio();
+            }
+        }
+
+        async function loadSingleAccountPortfolio(accountId) {
+            // Load account details
+            const accountData = await apiRequest(`/accounts/${accountId}`);
+            
+            if (accountData && accountData.data && accountData.data.account) {
+                const account = accountData.data.account;
+                updateSummary({
+                    totalValue: account.total_value || 0,
+                    cashBalance: account.cash_balance || 0,
+                    securitiesValue: account.securities_value || 0,
+                    positionsCount: account.positions_count || 0
+                });
+            }
+
+            // Load positions
+            const positionsData = await apiRequest(`/accounts/${accountId}/positions`);
+            displayPositions(positionsData?.data?.positions || []);
+
+            // Load recent orders
+            const ordersData = await apiRequest(`/trading/orders?accountId=${accountId}&limit=10`);
+            displayOrders(ordersData?.data?.orders || []);
+        }
+
+        async function loadAllAccountsPortfolio() {
+            let totalValue = 0;
+            let cashBalance = 0;
+            let securitiesValue = 0;
+            let positionsCount = 0;
+            let allPositions = [];
+
+            for (const account of userAccounts) {
+                totalValue += parseFloat(account.total_value || 0);
+                cashBalance += parseFloat(account.cash_balance || 0);
+                
+                const positionsData = await apiRequest(`/accounts/${account.id}/positions`);
+                if (positionsData && positionsData.data && positionsData.data.positions) {
+                    allPositions.push(...positionsData.data.positions.map(p => ({
+                        ...p,
+                        account_name: account.account_name || account.account_type
+                    })));
+                    positionsCount += positionsData.data.positions.length;
+                }
+            }
+
+            securitiesValue = totalValue - cashBalance;
+
+            updateSummary({
+                totalValue,
+                cashBalance,
+                securitiesValue,
+                positionsCount
+            });
+
+            displayPositions(allPositions);
+
+            // Load all orders
+            const ordersData = await apiRequest('/trading/orders?limit=10');
+            displayOrders(ordersData?.data?.orders || []);
+        }
+
+        function updateSummary(data) {
+            document.getElementById('totalValue').textContent = formatCurrency(data.totalValue);
+            document.getElementById('cashBalance').textContent = formatCurrency(data.cashBalance);
+            document.getElementById('securitiesValue').textContent = formatCurrency(data.securitiesValue);
+            document.getElementById('positionsCount').textContent = data.positionsCount;
+
+            // Calculate total gain/loss from summary (placeholder - you'll need to calculate from positions)
+            const gainLoss = 0; // Calculate from positions
+            const gainLossPercent = 0;
+            
+            const gainLossEl = document.getElementById('totalGainLoss');
+            const gainLossPercentEl = document.getElementById('totalGainLossPercent');
+            
+            gainLossEl.textContent = formatCurrency(gainLoss);
+            gainLossEl.className = 'summary-value ' + (gainLoss >= 0 ? 'positive' : 'negative');
+            gainLossPercentEl.textContent = formatPercent(gainLossPercent);
+            gainLossPercentEl.className = 'summary-change ' + (gainLossPercent >= 0 ? 'positive' : 'negative');
+        }
+
+        function displayPositions(positions) {
+            const container = document.getElementById('positionsTable');
+
+            if (!positions || positions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <h3>No Positions Yet</h3>
+                        <p>Start investing to build your portfolio</p>
+                        <div class="action-links">
+                            <a href="trading.html" class="action-link">Start Trading</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calculate total gain/loss
+            let totalGainLoss = 0;
+            let totalCost = 0;
+
+            positions.forEach(pos => {
+                const gainLoss = parseFloat(pos.unrealized_gain_loss || 0);
+                totalGainLoss += gainLoss;
+                totalCost += parseFloat(pos.quantity) * parseFloat(pos.average_cost);
+            });
+
+            const totalGainLossPercent = totalCost > 0 ? (totalGainLoss / totalCost) * 100 : 0;
+
+            // Update summary with calculated values
+            document.getElementById('totalGainLoss').textContent = formatCurrency(totalGainLoss);
+            document.getElementById('totalGainLoss').className = 'summary-value ' + (totalGainLoss >= 0 ? 'positive' : 'negative');
+            document.getElementById('totalGainLossPercent').textContent = formatPercent(totalGainLossPercent);
+            document.getElementById('totalGainLossPercent').className = 'summary-change ' + (totalGainLossPercent >= 0 ? 'positive' : 'negative');
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            ${selectedAccountId ? '' : '<th>Account</th>'}
+                            <th>Quantity</th>
+                            <th>Avg Cost</th>
+                            <th>Current Price</th>
+                            <th>Market Value</th>
+                            <th>Gain/Loss</th>
+                            <th>Return %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${positions.map(pos => {
+                            const gainLoss = parseFloat(pos.unrealized_gain_loss || 0);
+                            const gainLossPercent = parseFloat(pos.gain_loss_percent || 0);
+                            const gainLossClass = gainLoss >= 0 ? 'positive' : 'negative';
+
+                            return `
+                                <tr>
+                                    <td>
+                                        <div class="symbol-cell">${pos.symbol}</div>
+                                        <div class="company-name">${pos.security_name}</div>
+                                    </td>
+                                    ${selectedAccountId ? '' : `<td>${pos.account_name}</td>`}
+                                    <td>${parseFloat(pos.quantity).toLocaleString()}</td>
+                                    <td>${formatCurrency(pos.average_cost)}</td>
+                                    <td>${formatCurrency(pos.current_price)}</td>
+                                    <td><strong>${formatCurrency(pos.current_value || pos.market_value)}</strong></td>
+                                    <td class="${gainLossClass}">${formatCurrency(gainLoss)}</td>
+                                    <td class="${gainLossClass}"><strong>${formatPercent(gainLossPercent)}</strong></td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersTable');
+
+            if (!orders || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <h3>No Recent Orders</h3>
+                        <p>Your order history will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Symbol</th>
+                            <th>Side</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${orders.map(order => `
+                            <tr>
+                                <td>${formatDate(order.created_at)}</td>
+                                <td><strong>${order.symbol}</strong></td>
+                                <td><span class="badge badge-${order.side}">${order.side}</span></td>
+                                <td>${order.order_type}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.average_price ? formatCurrency(order.average_price) : formatCurrency(order.limit_price || 0)}</td>
+                                <td><span class="badge badge-${order.status}">${order.status}</span></td>
+                                <td><strong>${formatCurrency(order.filled_value || order.estimated_value || 0)}</strong></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function logout() {
+    localStorage.removeItem('aluma_access_token');
+    localStorage.removeItem('aluma_refresh_token');
+    localStorage.removeItem('aluma_user');
+    sessionStorage.removeItem('aluma_access_token');
+    sessionStorage.removeItem('aluma_refresh_token');
+    sessionStorage.removeItem('aluma_user');
+    window.location.href = 'login.html';
+}
+
+        async function initializePage() {
+            if (!checkAuth()) return;
+
+            try {
+                await loadUserProfile();
+                await loadAccounts();
+                await loadPortfolio();
+            } catch (error) {
+                console.error('Failed to initialize:', error);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
