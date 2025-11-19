@@ -143,7 +143,6 @@ function validateForm(email, password) {
   
   return errors;
 }
-
 // Handle login
 async function handleLogin(event) {
   event.preventDefault();
@@ -164,13 +163,13 @@ async function handleLogin(event) {
   
   try {
     // Make API call
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: username, // Your backend expects 'email'
+        email: username,
         password: password,
         deviceId: getDeviceId(),
         deviceName: getDeviceName()
@@ -193,19 +192,33 @@ async function handleLogin(event) {
     }
     
     if (data.success) {
-      // Store tokens in localStorage
-      localStorage.setItem('accessToken', data.data.tokens.accessToken);
-      localStorage.setItem('refreshToken', data.data.tokens.refreshToken);
+      const user = data.data.user;
       
-      // Store user info
-      localStorage.setItem('user', JSON.stringify(data.data.user));
+      // Store tokens and user info
+      localStorage.setItem('aluma_access_token', data.data.tokens.accessToken);
+      localStorage.setItem('aluma_refresh_token', data.data.tokens.refreshToken);
+      localStorage.setItem('aluma_user', JSON.stringify(user));
+      
+      // Check if user is admin
+      const isAdmin = user.role === 'admin' || 
+                     user.role === 'super_admin' || 
+                     user.role === 1 || 
+                     user.role === '1';
       
       // Show success message
       showSuccess('Login successful! Redirecting...');
       
-      // Redirect to dashboard after 1.5 seconds
+      // Redirect based on role
       setTimeout(() => {
-        window.location.href = 'dashboard.html'; // Change this to your dashboard page
+        if (isAdmin) {
+          // Store admin tokens separately
+          localStorage.setItem('admin_access_token', data.data.tokens.accessToken);
+          localStorage.setItem('admin_refresh_token', data.data.tokens.refreshToken);
+          localStorage.setItem('admin_user', JSON.stringify(user));
+          window.location.href = 'admin/dashboard.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
       }, 1500);
       
     } else {
