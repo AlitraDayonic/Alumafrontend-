@@ -193,6 +193,12 @@ async function handleLogin(event) {
     
     if (data.success) {
       const user = data.data.user;
+
+        // DEBUG: Log the user object to see what we're getting
+  console.log('Full user object:', user);
+  console.log('User role:', user.role);
+  console.log('User role type:', typeof user.role);
+  
       
       // Store tokens and user info
       localStorage.setItem('aluma_access_token', data.data.tokens.accessToken);
