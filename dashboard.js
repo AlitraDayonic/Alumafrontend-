@@ -61,7 +61,7 @@ function formatDate(dateString) {
 // Load user profile
 async function loadUserProfile() {
     try {
-        const response = await fetch(`${API_BASE_URL}/users/me`, {
+        const response = await fetch(`${API_BASE_URL}/api/v1/users/me`, {
             headers: getHeaders()
         });
 
