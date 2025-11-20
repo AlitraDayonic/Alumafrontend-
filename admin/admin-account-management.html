@@ -27,7 +27,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--dark);
             color: var(--text);
         }
@@ -588,7 +588,6 @@
         </div>
     </div>
 
-    <!-- User Details Modal -->
     <div class="modal" id="userModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -609,11 +608,11 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
-        let currentUser = null;
+        var API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+        var currentUser = null;
 
         function checkAuth() {
-            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
+            var token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
             if (!token) {
                 window.location.href = 'admin-login.html';
                 return false;
@@ -622,10 +621,10 @@
         }
 
         function getHeaders() {
-            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
+            var token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
             return {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': 'Bearer ' + token
             };
         }
 
@@ -637,7 +636,7 @@
         }
 
         function formatDate(dateString) {
-            const date = new Date(dateString);
+            var date = new Date(dateString);
             return new Intl.DateTimeFormat('en-US', {
                 month: 'short',
                 day: 'numeric',
@@ -647,1108 +646,394 @@
             }).format(date);
         }
 
-        async function loadUsers() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/users?limit=50&sort_by=created_at&sort_order=DESC`, {
-                    headers: getHeaders()
-                });
-
-                const data = await response.json();
-                
+        function loadUsers() {
+            fetch(API_BASE_URL + '/admin/users?limit=50&sort_by=created_at&sort_order=DESC', {
+                headers: getHeaders()
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
                 if (data.success && data.data) {
                     displayUsers(data.data);
                 } else {
                     throw new Error('Failed to load users');
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Error loading users:', error);
                 document.getElementById('usersTable').innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px;">Failed to load users. Please try again.</p>';
-            }
+            });
         }
 
-        async function searchUsers() {
-            const search = document.getElementById('searchInput').value;
-            const status = document.getElementById('statusFilter').value;
-            const kycStatus = document.getElementById('kycFilter').value;
+        function searchUsers() {
+            var search = document.getElementById('searchInput').value;
+            var status = document.getElementById('statusFilter').value;
+            var kycStatus = document.getElementById('kycFilter').value;
 
-            let url = `${API_BASE_URL}/admin/users?limit=50&sort_by=created_at&sort_order=DESC`;
-            if (search) url += `&search=${encodeURIComponent(search)}`;
-            if (status) url += `&status=${status}`;
-            if (kycStatus) url += `&kyc_status=${kycStatus}`;
+            var url = API_BASE_URL + '/admin/users?limit=50&sort_by=created_at&sort_order=DESC';
+            if (search) url += '&search=' + encodeURIComponent(search);
+            if (status) url += '&status=' + status;
+            if (kycStatus) url += '&kyc_status=' + kycStatus;
 
-            try {
-                document.getElementById('usersTable').innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching...</p></div>';
-                
-                const response = await fetch(url, {
-                    headers: getHeaders()
-                });
-
-                const data = await response.json();
-                
+            document.getElementById('usersTable').innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching...</p></div>';
+            
+            fetch(url, {
+                headers: getHeaders()
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
                 if (data.success && data.data) {
                     displayUsers(data.data);
                 } else {
                     throw new Error('Search failed');
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Error searching users:', error);
                 document.getElementById('usersTable').innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px;">Search failed. Please try again.</p>';
-            }
+            });
         }
 
         function displayUsers(users) {
             if (users.length === 0) {
-                document.getElementById('usersTable').inne        /* Sidebar - Same as dashboard */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
-            padding: 30px 0;
-            z-index: 1000;
-            overflow-y: auto;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-        }
-
-        .admin-logo {
-            padding: 0 25px 30px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .admin-logo svg {
-            width: 45px;
-            height: 45px;
-        }
-
-        .admin-logo-text h2 {
-            color: white;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .admin-logo-text p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-menu {
-            padding: 25px 0;
-        }
-
-        .nav-section {
-            padding: 15px 25px 10px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-item {
-            padding: 14px 25px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            margin: 3px 15px;
-            border-radius: 12px;
-            font-weight: 500;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 60%;
-            background: white;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .nav-item i {
-            width: 20px;
-            font-size: 18px;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            padding: 30px;
-            min-height: 100vh;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .page-title h1 {
-            font-size: 28px;
-            color: var(--primary-dark);
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .page-title p {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        .top-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        /* Search and Filters */
-        .search-filter-bar {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .search-input-wrapper {
-            position: relative;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .search-input-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-
-        .search-input-wrapper input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .search-input-wrapper input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
-        }
-
-        .filter-select {
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
-        }
-
-        /* Accounts Table */
-        .accounts-section {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--light);
-        }
-
-        th {
-            padding: 15px 12px;
-            text-align: left;
-            font-weight: 700;
-            color: var(--primary-dark);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            padding: 18px 12px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        tbody tr {
-            transition: all 0.3s;
-        }
-
-        tbody tr:hover {
-            background: rgba(30, 58, 138, 0.02);
-        }
-
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .status-badge.active {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .status-badge.pending {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-
-        .status-badge.suspended {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .balance-positive {
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        .balance-negative {
-            color: var(--danger);
-            font-weight: 700;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-            transform: scale(1.05);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-            transform: scale(1.05);
-        }
-
-        .btn-info {
-            background: var(--info);
-            color: white;
-        }
-
-        .btn-info:hover {
-            background: #7c3aed;
-            transform: scale(1.05);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 35px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .modal-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .modal-close {
-            background: var(--light);
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            color: var(--text);
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            background: var(--danger);
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
-        }
-
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .info-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(14, 165, 233, 0.05));
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .info-box p {
-            font-size: 14px;
-            color: var(--text);
-            margin-bottom: 5px;
-        }
-
-        .info-box strong {
-            color: var(--primary);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .btn-cancel {
-            background: var(--border);
-            color: var(--text);
-            flex: 1;
-        }
-
-        .btn-cancel:hover {
-            background: #cbd5e1;
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            flex: 1;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
-        }
-
-        .success-message, .error-message {
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border-left: 4px solid var(--success);
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border-left: 4px solid var(--danger);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: var(--text-light);
-        }
-
-        .spinner {
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-            }
-
-            .sidebar .nav-item span {
-                display: none;
-            }
-
-            .admin-logo-text {
-                display: none;
-            }
-
-            .nav-section {
-                display: none;
-            }
-
-            .main-content {
-                margin-left: 70px;
-                padding: 20px;
-            }
-
-            .top-bar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .search-group {
-                flex-direction: column;
-            }
-
-            .search-input-wrapper {
-                min-width: 100%;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 10px 8px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="admin-logo">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <path d="M50 10 L80 20 L80 45 C80 65 65 80 50 90 C35 80 20 65 20 45 L20 20 Z" 
-                      fill="url(#logoGrad)" opacity="0.3"/>
-                <path d="M50 15 L75 23 L75 45 C75 62 62 75 50 83 C38 75 25 62 25 45 L25 23 Z" 
-                      fill="white"/>
-            </svg>
-            <div class="admin-logo-text">
-                <h2>Aluma</h2>
-                <p>Admin Panel</p>
-            </div>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-section">Main</div>
-            <a href="dashboard.html" class="nav-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="users.html" class="nav-item">
-                <i class="fas fa-users"></i>
-                <span>Users</span>
-            </a>
-            <a href="accounts.html" class="nav-item active">
-                <i class="fas fa-wallet"></i>
-                <span>Accounts</span>
-            </a>
-            
-            <div class="nav-section">Management</div>
-            <a href="kyc.html" class="nav-item">
-                <i class="fas fa-id-card"></i>
-                <span>KYC Review</span>
-            </a>
-            <a href="transactions.html" class="nav-item">
-                <i class="fas fa-exchange-alt"></i>
-                <span>Transactions</span>
-            </a>
-            <a href="tickets.html" class="nav-item">
-                <i class="fas fa-ticket-alt"></i>
-                <span>Support Tickets</span>
-            </a>
-            
-            <div class="nav-section">System</div>
-            <a href="analytics.html" class="nav-item">
-                <i class="fas fa-chart-bar"></i>
-                <span>Analytics</span>
-            </a>
-            <a href="audit-logs.html" class="nav-item">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Audit Logs</span>
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <a href="#" class="nav-item" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <h1>Account Management</h1>
-                <p>Manage user accounts and balances</p>
-            </div>
-        </div>
-
-        <!-- Search and Filter -->
-        <div class="search-filter-bar">
-            <div class="search-group">
-                <div class="search-input-wrapper">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search by email, name, or account number...">
-                </div>
-                <select class="filter-select" id="statusFilter">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="pending">Pending</option>
-                    <option value="suspended">Suspended</option>
-                </select>
-                <button class="btn btn-primary" onclick="searchAccounts()">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
-        </div>
-
-        <!-- Success/Error Messages -->
-        <div class="success-message" id="successMessage"></div>
-        <div class="error-message" id="errorMessage"></div>
-
-        <!-- Accounts Table -->
-        <div class="accounts-section">
-            <div id="accountsTable">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading accounts...</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    !-- Credit Modal -->
-    <div class="modal" id="creditModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Credit Account</h2>
-                <button class="modal-close" onclick="closeModal('creditModal')">&times;</button>
-            </div>
-            <div class="info-box">
-                <p><strong>Account:</strong> <span id="creditAccountInfo"></span></p>
-                <p><strong>Current Balance:</strong> <span id="creditCurrentBalance"></span></p>
-            </div>
-            <form id="creditForm">
-                <div class="form-group">
-                    <label class="form-label">Amount ($)</label>
-                    <input type="number" class="form-input" id="creditAmount" step="0.01" min="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Reason</label>
-                    <textarea class="form-input form-textarea" id="creditReason" required placeholder="Enter reason for credit..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Reference (Optional)</label>
-                    <input type="text" class="form-input" id="creditReference" placeholder="e.g., DEPOSIT-2024-001">
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal('creditModal')">Cancel</button>
-                    <button type="submit" class="btn btn-submit">
-                        <i class="fas fa-plus-circle"></i> Credit Account
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Debit Modal -->
-    <div class="modal" id="debitModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Debit Account</h2>
-                <button class="modal-close" onclick="closeModal('debitModal')">&times;</button>
-            </div>
-            <div class="info-box">
-                <p><strong>Account:</strong> <span id="debitAccountInfo"></span></p>
-                <p><strong>Current Balance:</strong> <span id="debitCurrentBalance"></span></p>
-            </div>
-            <form id="debitForm">
-                <div class="form-group">
-                    <label class="form-label">Amount ($)</label>
-                    <input type="number" class="form-input" id="debitAmount" step="0.01" min="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Reason</label>
-                    <textarea class="form-input form-textarea" id="debitReason" required placeholder="Enter reason for debit..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Reference (Optional)</label>
-                    <input type="text" class="form-input" id="debitReference" placeholder="e.g., WITHDRAWAL-2024-001">
-                </div>
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="allowNegative">
-                        <span>Allow negative balance</span>
-                    </label>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal('debitModal')">Cancel</button>
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-minus-circle"></i> Debit Account
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
-        let currentAccountId = null;
-
-        // Check authentication
-        function checkAuth() {
-            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
-            if (!token) {
-                window.location.href = 'login.html';
-                return false;
-            }
-            return token;
-        }
-
-        // Get headers
-        function getHeaders() {
-            const token = localStorage.getItem('admin_access_token') || sessionStorage.getItem('admin_access_token');
-            return {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            };
-        }
-
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD'
-            }).format(amount);
-        }
-
-        // Show message
-        function showMessage(message, type = 'success') {
-            const messageDiv = document.getElementById(`${type}Message`);
-            messageDiv.textContent = message;
-            messageDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 5000);
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Load accounts
-        async function loadAccounts() {
-            try {
-                const search = document.getElementById('searchInput').value;
-                const status = document.getElementById('statusFilter').value;
-                
-                let url = `${API_BASE_URL}/admin/accounts?limit=50`;
-                if (search) url += `&search=${encodeURIComponent(search)}`;
-                if (status) url += `&status=${status}`;
-                
-                const response = await fetch(url, {
-                    headers: getHeaders()
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to load accounts');
-                }
-
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    displayAccounts(data.data);
-                } else {
-                    throw new Error('Invalid response');
-                }
-            } catch (error) {
-                console.error('Error loading accounts:', error);
-                document.getElementById('accountsTable').innerHTML = 
-                    '<p style="text-align:center;color:var(--text-light);padding:40px;">Failed to load accounts</p>';
-            }
-        }
-
-        // Display accounts
-        function displayAccounts(accounts) {
-            if (accounts.length === 0) {
-                document.getElementById('accountsTable').innerHTML = 
-                    '<p style="text-align:center;color:var(--text-light);padding:40px;">No accounts found</p>';
+                document.getElementById('usersTable').innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px;">No users found</p>';
                 return;
             }
 
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Account Number</th>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Balance</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            accounts.forEach(account => {
-                const balance = parseFloat(account.cash_balance || 0);
-                const balanceClass = balance >= 0 ? 'balance-positive' : 'balance-negative';
-                
-                html += `
-                    <tr>
-                        <td><strong>${account.account_number || 'N/A'}</strong></td>
-                        <td>${account.first_name || ''} ${account.last_name || ''}</td>
-                        <td>${account.email || 'N/A'}</td>
-                        <td class="${balanceClass}">${formatCurrency(balance)}</td>
-                        <td><span class="status-badge ${account.status || 'active'}">${account.status || 'active'}</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-small btn-success" onclick="openCreditModal('${account.id}', '${account.account_number}', ${balance}, '${account.email}')">
-                                    <i class="fas fa-plus"></i> Credit
-                                </button>
-                                <button class="btn-small btn-danger" onclick="openDebitModal('${account.id}', '${account.account_number}', ${balance}, '${account.email}')">
-                                    <i class="fas fa-minus"></i> Debit
-                                </button>
-                                <button class="btn-small btn-info" onclick="viewAdjustments('${account.id}')">
-                                    <i class="fas fa-history"></i> History
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-
+            var html = '<table><thead><tr><th>User</th><th>Email</th><th>Status</th><th>KYC Status</th><th>Accounts</th><th>Joined</th><th>Action</th></tr></thead><tbody>';
+            
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                html += '<tr>';
+                html += '<td><strong>' + (user.first_name || '') + ' ' + (user.last_name || '') + '</strong><br><small style="color: var(--text-light);">@' + (user.username || 'N/A') + '</small></td>';
+                html += '<td>' + user.email + '</td>';
+                html += '<td><span class="status-badge ' + user.status + '">' + user.status + '</span></td>';
+                html += '<td><span class="status-badge ' + (user.kyc_status || 'pending') + '">' + (user.kyc_status || 'not_started') + '</span></td>';
+                html += '<td>' + (user.account_count || 0) + '</td>';
+                html += '<td>' + formatDate(user.created_at) + '</td>';
+                html += '<td><button class="btn btn-primary" style="font-size: 12px; padding: 6px 12px;" onclick="viewUser(\'' + user.id + '\')"><i class="fas fa-eye"></i> View</button></td>';
+                html += '</tr>';
+            }
+            
             html += '</tbody></table>';
-            document.getElementById('accountsTable').innerHTML = html;
+            document.getElementById('usersTable').innerHTML = html;
         }
 
-        // Search accounts
-        function searchAccounts() {
-            loadAccounts();
-        }
+        function viewUser(userId) {
+            currentUser = userId;
+            document.getElementById('userModal').classList.add('active');
+            document.getElementById('modalContent').innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading user details...</p></div>';
 
-        // Open credit modal
-        function openCreditModal(accountId, accountNumber, balance, email) {
-            currentAccountId = accountId;
-            document.getElementById('creditAccountInfo').textContent = `${accountNumber} (${email})`;
-            document.getElementById('creditCurrentBalance').textContent = formatCurrency(balance);
-            document.getElementById('creditForm').reset();
-            document.getElementById('creditModal').classList.add('active');
-        }
-
-        // Open debit modal
-        function openDebitModal(accountId, accountNumber, balance, email) {
-            currentAccountId = accountId;
-            document.getElementById('debitAccountInfo').textContent = `${accountNumber} (${email})`;
-            document.getElementById('debitCurrentBalance').textContent = formatCurrency(balance);
-            document.getElementById('debitForm').reset();
-            document.getElementById('debitModal').classList.add('active');
-        }
-
-        // Close modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            currentAccountId = null;
-        }
-
-        // Handle credit form
-        document.getElementById('creditForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const amount = parseFloat(document.getElementById('creditAmount').value);
-            const reason = document.getElementById('creditReason').value.trim();
-            const reference = document.getElementById('creditReference').value.trim();
-            
-            if (!amount || amount <= 0) {
-                showMessage('Please enter a valid amount', 'error');
-                return;
-            }
-            
-            if (!reason) {
-                showMessage('Please provide a reason', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/accounts/${currentAccountId}/credit`, {
-                    method: 'POST',
-                    headers: getHeaders(),
-                    body: JSON.stringify({
-                        amount: amount,
-                        reason: reason,
-                        reference: reference || undefined
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Credit failed');
-                }
-                
-                if (data.success) {
-                    showMessage(`Successfully credited ${formatCurrency(amount)} to account`, 'success');
-                    closeModal('creditModal');
-                    await loadAccounts(); // Reload accounts
+            fetch(API_BASE_URL + '/admin/users/' + userId, {
+                headers: getHeaders()
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success && data.data) {
+                    displayUserDetails(data.data);
                 } else {
-                    throw new Error(data.message || 'Credit failed');
+                    throw new Error('Failed to load user details');
                 }
-            } catch (error) {
-                console.error('Credit error:', error);
-                showMessage(error.message, 'error');
-            }
-        });
-
-        // Handle debit form
-        document.getElementById('debitForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const amount = parseFloat(document.getElementById('debitAmount').value);
-            const reason = document.getElementById('debitReason').value.trim();
-            const reference = document.getElementById('debitReference').value.trim();
-            const allowNegative = document.getElementById('allowNegative').checked;
-            
-            if (!amount || amount <= 0) {
-                showMessage('Please enter a valid amount', 'error');
-                return;
-            }
-            
-            if (!reason) {
-                showMessage('Please provide a reason', 'error');
-                return;
-            }
-            
-            // Confirm debit action
-            if (!confirm(`Are you sure you want to debit ${formatCurrency(amount)} from this account?`)) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/accounts/${currentAccountId}/debit`, {
-                    method: 'POST',
-                    headers: getHeaders(),
-                    body: JSON.stringify({
-                        amount: amount,
-                        reason: reason,
-                        reference: reference || undefined,
-                        allow_negative: allowNegative
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Debit failed');
-                }
-                
-                if (data.success) {
-                    showMessage(`Successfully debited ${formatCurrency(amount)} from account`, 'success');
-                    closeModal('debitModal');
-                    await loadAccounts(); // Reload accounts
-                } else {
-                    throw new Error(data.message || 'Debit failed');
-                }
-            } catch (error) {
-                console.error('Debit error:', error);
-                showMessage(error.message, 'error');
-            }
-        });
-
-        // View adjustment history
-        function viewAdjustments(accountId) {
-            // For now, just alert - you can create another page for this
-            alert('Adjustment history feature - coming soon!\n\nAccount ID: ' + accountId);
-            // TODO: Create adjustments history page
+            })
+            .catch(function(error) {
+                console.error('Error loading user details:', error);
+                document.getElementById('modalContent').innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px;">Failed to load user details</p>';
+            });
         }
 
-        // Logout
+        function displayUserDetails(data) {
+            var user = data.user;
+            var accounts = data.accounts || [];
+            
+            var initial = (user.first_name || 'U').charAt(0).toUpperCase();
+            
+            var accountsHtml = '';
+            if (accounts.length > 0) {
+                for (var i = 0; i < accounts.length; i++) {
+                    var account = accounts[i];
+                    accountsHtml += '<div class="account-card">';
+                    accountsHtml += '<div class="account-header">';
+                    accountsHtml += '<div><h4>' + (account.account_type || 'Account') + '</h4>';
+                    accountsHtml += '<p style="color: var(--text-light); font-size: 14px;">Account #' + account.account_number + '</p></div>';
+                    accountsHtml += '<span class="status-badge ' + account.status + '">' + account.status + '</span></div>';
+                    accountsHtml += '<div class="account-balance">' + formatCurrency(account.cash_balance) + '</div>';
+                    accountsHtml += '<p style="color: var(--text-light); font-size: 13px; margin-top: 8px;">Market Value: ' + formatCurrency(account.market_value || 0) + '</p>';
+                    accountsHtml += '<div class="balance-actions">';
+                    accountsHtml += '<button class="btn btn-success" onclick="creditAccount(\'' + account.id + '\', ' + account.cash_balance + ')"><i class="fas fa-plus"></i> Credit</button>';
+                    accountsHtml += '<button class="btn btn-danger" onclick="debitAccount(\'' + account.id + '\', ' + account.cash_balance + ')"><i class="fas fa-minus"></i> Debit</button>';
+                    accountsHtml += '</div></div>';
+                }
+            } else {
+                accountsHtml = '<p style="color: var(--text-light);">No accounts found</p>';
+            }
+
+            var activityHtml = '';
+            if (data.recent_activity && data.recent_activity.length > 0) {
+                activityHtml = '<table><thead><tr><th>Action</th><th>Type</th><th>IP Address</th><th>Date</th></tr></thead><tbody>';
+                for (var i = 0; i < data.recent_activity.length; i++) {
+                    var activity = data.recent_activity[i];
+                    activityHtml += '<tr>';
+                    activityHtml += '<td>' + activity.action + '</td>';
+                    activityHtml += '<td>' + activity.type + '</td>';
+                    activityHtml += '<td>' + (activity.ip_address || 'N/A') + '</td>';
+                    activityHtml += '<td>' + formatDate(activity.created_at) + '</td>';
+                    activityHtml += '</tr>';
+                }
+                activityHtml += '</tbody></table>';
+            } else {
+                activityHtml = '<p style="color: var(--text-light);">No recent activity</p>';
+            }
+            
+            var html = '<div class="user-header">';
+            html += '<div class="user-avatar">' + initial + '</div>';
+            html += '<div class="user-info">';
+            html += '<h3>' + (user.first_name || '') + ' ' + (user.last_name || '') + '</h3>';
+            html += '<p><i class="fas fa-envelope"></i> ' + user.email + '</p>';
+            html += '<p><i class="fas fa-user"></i> @' + (user.username || 'N/A') + '</p>';
+            html += '<p><i class="fas fa-calendar"></i> Joined ' + formatDate(user.created_at) + '</p>';
+            html += '</div></div>';
+
+            html += '<div class="tabs">';
+            html += '<button class="tab active" onclick="switchTab(\'profile\', event)">Profile</button>';
+            html += '<button class="tab" onclick="switchTab(\'accounts\', event)">Accounts</button>';
+            html += '<button class="tab" onclick="switchTab(\'kyc\', event)">KYC</button>';
+            html += '<button class="tab" onclick="switchTab(\'activity\', event)">Activity</button>';
+            html += '</div>';
+
+            html += '<div class="tab-content active" id="profileTab">';
+            html += '<h3 style="margin-bottom: 20px;">Edit User Profile</h3>';
+            html += '<form onsubmit="updateUserProfile(event)">';
+            html += '<div class="form-grid">';
+            html += '<div class="form-group"><label>First Name</label><input type="text" id="firstName" value="' + (user.first_name || '') + '" required></div>';
+            html += '<div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="' + (user.last_name || '') + '" required></div>';
+            html += '<div class="form-group"><label>Email</label><input type="email" id="email" value="' + user.email + '" required></div>';
+            html += '<div class="form-group"><label>Phone</label><input type="tel" id="phone" value="' + (user.phone || '') + '"></div>';
+            html += '<div class="form-group"><label>Status</label><select id="userStatus">';
+            html += '<option value="active"' + (user.status === 'active' ? ' selected' : '') + '>Active</option>';
+            html += '<option value="suspended"' + (user.status === 'suspended' ? ' selected' : '') + '>Suspended</option>';
+            html += '<option value="closed"' + (user.status === 'closed' ? ' selected' : '') + '>Closed</option>';
+            html += '</select></div></div>';
+            html += '<div class="form-group"><label>Status Change Reason (if changing status)</label>';
+            html += '<textarea id="statusReason" rows="3" placeholder="Reason for status change..."></textarea></div>';
+            html += '<div style="display: flex; gap: 12px;">';
+            html += '<button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save Changes</button>';
+            html += '<button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>';
+            html += '</div></form></div>';
+
+            html += '<div class="tab-content" id="accountsTab">';
+            html += '<h3 style="margin-bottom: 20px;">User Accounts</h3>';
+            html += accountsHtml;
+            html += '</div>';
+
+            html += '<div class="tab-content" id="kycTab">';
+            html += '<h3 style="margin-bottom: 20px;">KYC Information</h3>';
+            html += '<form onsubmit="updateKYC(event)">';
+            html += '<div class="form-group"><label>KYC Status</label><select id="kycStatus">';
+            html += '<option value="pending"' + (user.kyc_status === 'pending' ? ' selected' : '') + '>Pending</option>';
+            html += '<option value="under_review"' + (user.kyc_status === 'under_review' ? ' selected' : '') + '>Under Review</option>';
+            html += '<option value="approved"' + (user.kyc_status === 'approved' ? ' selected' : '') + '>Approved</option>';
+            html += '<option value="rejected"' + (user.kyc_status === 'rejected' ? ' selected' : '') + '>Rejected</option>';
+            html += '</select></div>';
+            html += '<div class="form-group"><label>Verification Level</label><select id="verificationLevel">';
+            html += '<option value="0"' + (user.verification_level === 0 ? ' selected' : '') + '>Level 0 - Not Verified</option>';
+            html += '<option value="1"' + (user.verification_level === 1 ? ' selected' : '') + '>Level 1 - Basic</option>';
+            html += '<option value="2"' + (user.verification_level === 2 ? ' selected' : '') + '>Level 2 - Intermediate</option>';
+            html += '<option value="3"' + (user.verification_level === 3 ? ' selected' : '') + '>Level 3 - Full</option>';
+            html += '</select></div>';
+            html += '<div class="form-group"><label>Rejection Reason (if rejected)</label>';
+            html += '<textarea id="rejectionReason" rows="3" placeholder="Reason for rejection...">' + (user.rejection_reason || '') + '</textarea></div>';
+            html += '<div style="display: flex; gap: 12px;">';
+            html += '<button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Update KYC</button>';
+            html += '<button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>';
+            html += '</div></form></div>';
+
+            html += '<div class="tab-content" id="activityTab">';
+            html += '<h3 style="margin-bottom: 20px;">Recent Activity</h3>';
+            html += activityHtml;
+            html += '</div>';
+            
+            document.getElementById('modalContent').innerHTML = html;
+        }
+
+        function switchTab(tabName, event) {
+            var tabs = document.querySelectorAll('.tab');
+            var contents = document.querySelectorAll('.tab-content');
+            
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        function updateUserProfile(event) {
+            event.preventDefault();
+            
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var status = document.getElementById('userStatus').value;
+            var reason = document.getElementById('statusReason').value;
+
+            fetch(API_BASE_URL + '/admin/users/' + currentUser + '/status', {
+                method: 'PATCH',
+                headers: getHeaders(),
+                body: JSON.stringify({
+                    status: status,
+                    reason: reason
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    showAlert('User profile updated successfully!', 'success');
+                    setTimeout(function() {
+                        closeUserModal();
+                        loadUsers();
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Update failed');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error updating user:', error);
+                showAlert(error.message || 'Failed to update user profile', 'error');
+            });
+        }
+
+        function updateKYC(event) {
+            event.preventDefault();
+            
+            var kycStatus = document.getElementById('kycStatus').value;
+            var verificationLevel = document.getElementById('verificationLevel').value;
+            var rejectionReason = document.getElementById('rejectionReason').value;
+
+            fetch(API_BASE_URL + '/admin/kyc/' + currentUser + '/review', {
+                method: 'POST',
+                headers: getHeaders(),
+                body: JSON.stringify({
+                    status: kycStatus,
+                    verification_level: parseInt(verificationLevel),
+                    rejection_reason: rejectionReason
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    showAlert('KYC updated successfully!', 'success');
+                    setTimeout(function() {
+                        closeUserModal();
+                        loadUsers();
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Update failed');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error updating KYC:', error);
+                showAlert(error.message || 'Failed to update KYC', 'error');
+            });
+        }
+
+        function creditAccount(accountId, currentBalance) {
+            var amount = prompt('Current Balance: ' + formatCurrency(currentBalance) + '\n\nEnter amount to CREDIT (add):');
+            if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                alert('Invalid amount');
+                return;
+            }
+
+            var reason = prompt('Enter reason for crediting account:');
+            if (!reason) {
+                alert('Reason is required');
+                return;
+            }
+
+            processBalanceAdjustment(accountId, 'credit', parseFloat(amount), reason);
+        }
+
+        function debitAccount(accountId, currentBalance) {
+            var amount = prompt('Current Balance: ' + formatCurrency(currentBalance) + '\n\nEnter amount to DEBIT (subtract):');
+            if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                alert('Invalid amount');
+                return;
+            }
+
+            if (parseFloat(amount) > currentBalance) {
+                alert('Cannot debit more than current balance');
+                return;
+            }
+
+            var reason = prompt('Enter reason for debiting account:');
+            if (!reason) {
+                alert('Reason is required');
+                return;
+            }
+
+            processBalanceAdjustment(accountId, 'debit', parseFloat(amount), reason);
+        }
+
+        function processBalanceAdjustment(accountId, type, amount, reason) {
+            fetch(API_BASE_URL + '/admin/accounts/' + accountId + '/' + type, {
+                method: 'POST',
+                headers: getHeaders(),
+                body: JSON.stringify({
+                    amount: amount,
+                    reason: reason,
+                    reference: 'ADMIN-' + type.toUpperCase() + '-' + Date.now()
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    showAlert('Account ' + type + 'ed successfully!', 'success');
+                    viewUser(currentUser);
+                } else {
+                    throw new Error(data.message || 'Operation failed');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error ' + type + 'ing account:', error);
+                showAlert(error.message || 'Failed to ' + type + ' account', 'error');
+            });
+        }
+
+        function showAlert(message, type) {
+            var alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            var alert = document.createElement('div');
+            alert.className = 'alert ' + alertClass;
+            alert.innerHTML = '<i class="fas ' + icon + '"></i><span>' + message + '</span>';
+            
+            var modalBody = document.querySelector('.modal-body');
+            modalBody.insertBefore(alert, modalBody.firstChild);
+            
+            setTimeout(function() {
+                alert.remove();
+            }, 5000);
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('active');
+            currentUser = null;
+        }
+
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 localStorage.removeItem('admin_access_token');
@@ -1757,34 +1042,30 @@
                 sessionStorage.removeItem('admin_access_token');
                 sessionStorage.removeItem('admin_refresh_token');
                 sessionStorage.removeItem('admin_user');
-                window.location.href = 'login.html';
+                window.location.href = 'admin-login.html';
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!checkAuth()) {
-                return;
-            }
-            loadAccounts();
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) return;
+            loadUsers();
 
-        // Search on Enter key
-        document.getElementById('searchInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchAccounts();
-            }
-        });
-
-        // Close modal on outside click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal.id);
-                }
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') searchUsers();
             });
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user');
+            if (userId) {
+                viewUser(userId);
+            }
+        });
+
+        document.getElementById('userModal').addEventListener('click', function(e) {
+            if (e.target.id === 'userModal') {
+                closeUserModal();
+            }
         });
     </script>
 </body>
 </html>
-            
