@@ -356,6 +356,148 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-header h2 {
+            color: #161E44;
+            font-size: 24px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #ff4444;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #47af09;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #47af09;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #3a8d07;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -382,6 +524,11 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -400,11 +547,7 @@
                 <i class="fas fa-wallet"></i>
                 <span>Accounts</span>
             </a>
-            <!-- <a href="transactions.html" class="nav-item">
-                <i class="fas fa-exchange-alt"></i>
-                <span>Transactions</span>
-            </a> -->
-            <a href="transfer.html" class="nav-item">
+            <a href="#" onclick="openModal('transferModal')" class="nav-item">
                 <i class="fas fa-paper-plane"></i>
                 <span>Transfer</span>
             </a>
@@ -503,22 +646,22 @@
         <div class="quick-actions">
             <h2 class="section-title">Quick Actions</h2>
             <div class="actions-grid">
-                <a href="transfer.html" class="action-btn">
+                <div class="action-btn" onclick="openModal('transferModal')">
                     <i class="fas fa-paper-plane"></i>
                     <div>Transfer Money</div>
-                </a>
-                <a href="deposit.html" class="action-btn">
+                </div>
+                <div class="action-btn" onclick="openModal('depositModal')">
                     <i class="fas fa-plus-circle"></i>
                     <div>Deposit</div>
-                </a>
-                <a href="withdraw.html" class="action-btn">
+                </div>
+                <div class="action-btn" onclick="openModal('withdrawModal')">
                     <i class="fas fa-minus-circle"></i>
                     <div>Withdraw</div>
-                </a>
-                <a href="pay-bills.html" class="action-btn">
+                </div>
+                <div class="action-btn" onclick="openModal('billsModal')">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <div>Pay Bills</div>
-                </a>
+                </div>
             </div>
         </div>
 
@@ -536,6 +679,155 @@
             </div>
         </div>
     </main>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-paper-plane"></i> Transfer Money</h2>
+                <button class="close-modal" onclick="closeModal('transferModal')">&times;</button>
+            </div>
+            <div id="transferMessage"></div>
+            <form id="transferForm" onsubmit="handleTransfer(event)">
+                <div class="form-group">
+                    <label>From Account</label>
+                    <select id="transferFromAccount" required>
+                        <option value="">Select account...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>To Account (Your Accounts Only)</label>
+                    <select id="transferToAccountDropdown" required>
+                        <option value="">Select destination account...</option>
+                    </select>
+                    <small style="color: #666; font-size: 12px;">External transfers coming soon!</small>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="transferAmount" placeholder="0.00" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="transferDescription" placeholder="What's this transfer for?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="transferSubmitBtn">
+                    <i class="fas fa-paper-plane"></i> Transfer Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Deposit Funds</h2>
+                <button class="close-modal" onclick="closeModal('depositModal')">&times;</button>
+            </div>
+            <div id="depositMessage"></div>
+            <form id="depositForm" onsubmit="handleDeposit(event)">
+                <div class="form-group">
+                    <label>From Bank Account</label>
+                    <select id="depositBankAccount" required>
+                        <option value="">Select bank account...</option>
+                    </select>
+                    <small style="color: #666; font-size: 12px;">Don't have a linked bank account? <a href="profile.html" style="color: #47af09;">Link one here</a></small>
+                </div>
+                <div class="form-group">
+                    <label>To Account</label>
+                    <select id="depositToAccount" required>
+                        <option value="">Select account...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="depositAmount" placeholder="0.00" step="0.01" min="0.01" max="1000000" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="depositDescription" placeholder="What's this deposit for?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="depositSubmitBtn">
+                    <i class="fas fa-plus-circle"></i> Deposit Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-minus-circle"></i> Withdraw Funds</h2>
+                <button class="close-modal" onclick="closeModal('withdrawModal')">&times;</button>
+            </div>
+            <div id="withdrawMessage"></div>
+            <form id="withdrawForm" onsubmit="handleWithdraw(event)">
+                <div class="form-group">
+                    <label>From Account</label>
+                    <select id="withdrawFromAccount" required>
+                        <option value="">Select account...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>To Bank Account</label>
+                    <select id="withdrawBankAccount" required>
+                        <option value="">Select bank account...</option>
+                    </select>
+                    <small style="color: #666; font-size: 12px;">Don't have a linked bank account? <a href="profile.html" style="color: #47af09;">Link one here</a></small>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="withdrawAmount" placeholder="0.00" step="0.01" min="0.01" max="1000000" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="withdrawDescription" placeholder="What's this withdrawal for?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="withdrawSubmitBtn">
+                    <i class="fas fa-minus-circle"></i> Withdraw Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pay Bills Modal -->
+    <div id="billsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Pay Bills</h2>
+                <button class="close-modal" onclick="closeModal('billsModal')">&times;</button>
+            </div>
+            <div id="billsMessage"></div>
+            <form id="billsForm" onsubmit="handlePayBills(event)">
+                <div class="form-group">
+                    <label>From Account</label>
+                    <select id="billsFromAccount" required>
+                        <option value="">Select account...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Payee/Biller Name</label>
+                    <input type="text" id="billsPayeeName" placeholder="e.g., Electric Company" required>
+                </div>
+                <div class="form-group">
+                    <label>Account/Reference Number</label>
+                    <input type="text" id="billsAccountNumber" placeholder="Enter account or reference number" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="billsAmount" placeholder="0.00" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="billsNotes" placeholder="Any additional notes"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="billsSubmitBtn">
+                    <i class="fas fa-check-circle"></i> Pay Bill
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script src="dashboard.js"></script>
 </body>
