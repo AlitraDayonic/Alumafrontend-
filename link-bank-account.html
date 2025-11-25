@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Bank Account - Aluma Banking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #47af09;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .info-box ul li {
+            margin-bottom: 5px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group label .required {
+            color: #ff4444;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #47af09;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .form-group .helper-text {
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #47af09;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #3a8d07;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        .existing-accounts {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .account-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-info h4 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .account-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-verified {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-default {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .btn-remove {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-remove:hover {
+            background: #cc0000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #47af09;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .account-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div class="header">
+            <h1><i class="fas fa-university"></i> Link Bank Account</h1>
+            <p>Connect your bank account to deposit and withdraw funds</p>
+        </div>
+
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> What You'll Need</h3>
+            <ul>
+                <li>Bank name</li>
+                <li>Account holder name (must match your Aluma account)</li>
+                <li>Bank account number</li>
+                <li>Routing number (9 digits)</li>
+                <li>Account type (Checking or Savings)</li>
+            </ul>
+        </div>
+
+        <div id="messageContainer"></div>
+
+        <form id="linkBankForm">
+            <div class="form-section">
+                <h3 class="section-title">Bank Information</h3>
+
+                <div class="form-group">
+                    <label>Bank Name <span class="required">*</span></label>
+                    <input type="text" id="bankName" placeholder="e.g., Chase, Bank of America, Wells Fargo" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Holder Name <span class="required">*</span></label>
+                    <input type="text" id="accountHolderName" placeholder="Full name as it appears on the account" required>
+                    <small>Must match the name on your Aluma account</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">Account Details</h3>
+
+                <div class="form-group">
+                    <label>Account Type <span class="required">*</span></label>
+                    <select id="accountType" required>
+                        <option value="">Select account type</option>
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Number <span class="required">*</span></label>
+                    <input type="text" id="accountNumber" placeholder="Enter your bank account number" required>
+                    <div class="helper-text">
+                        <i class="fas fa-lock"></i> Your account information is encrypted and secure
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Routing Number <span class="required">*</span></label>
+                    <input type="text" id="routingNumber" placeholder="9-digit routing number" maxlength="9" pattern="[0-9]{9}" required>
+                    <small>Found on the bottom left of your checks</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreementCheck" required>
+                    <label for="agreementCheck">I confirm that I am the account holder and authorize Aluma to link this account</label>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.html'">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-link"></i> Link Bank Account
+                </button>
+            </div>
+        </form>
+
+        <!-- Existing Linked Accounts -->
+        <div class="existing-accounts">
+            <h3 class="section-title">Your Linked Bank Accounts</h3>
+            <div id="accountsList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading bank accounts...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('aluma_access_token') || sessionStorage.getItem('aluma_access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return token;
+        }
+
+        // Get headers
+        function getHeaders() {
+            const token = localStorage.getItem('aluma_access_token') || sessionStorage.getItem('aluma_access_token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        // Show message
+        function showMessage(message, isError = false) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `
+                <div class="${isError ? 'error-message' : 'success-message'} message">
+                    <i class="fas fa-${isError ? 'exclamation-circle' : 'check-circle'}"></i> ${message}
+                </div>
+            `;
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Load existing bank accounts
+        async function loadBankAccounts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/funding/bank-accounts`, {
+                    headers: getHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load bank accounts');
+
+                const data = await response.json();
+                displayBankAccounts(data.data.bankAccounts || []);
+            } catch (error) {
+                console.error('Error loading bank accounts:', error);
+                document.getElementById('accountsList').innerHTML = `
+                    <p style="color: #666; text-align: center;">No linked bank accounts yet</p>
+                `;
+            }
+        }
+
+        // Display bank accounts
+        function displayBankAccounts(accounts) {
+            const container = document.getElementById('accountsList');
+
+            if (accounts.length === 0) {
+                container.innerHTML = `
+                    <p style="color: #666; text-align: center;">No linked bank accounts yet</p>
+                `;
+                return;
+            }
+
+            container.innerHTML = accounts.map(account => `
+                <div class="account-card">
+                    <div class="account-info">
+                        <h4>
+                            ${account.bank_name}
+                            ${account.is_verified ? '<span class="badge badge-verified">Verified</span>' : '<span class="badge badge-pending">Pending</span>'}
+                            ${account.is_primary ? '<span class="badge badge-default">Default</span>' : ''}
+                        </h4>
+                        <p>${account.account_type || 'N/A'} - ****${account.account_number_last4}</p>
+                    </div>
+                    <button class="btn-remove" onclick="removeBankAccount('${account.id}')">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Handle form submission
+        document.getElementById('linkBankForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Linking...';
+
+            try {
+                const formData = {
+                    bankName: document.getElementById('bankName').value.trim(),
+                    accountHolderName: document.getElementById('accountHolderName').value.trim(),
+                    accountType: document.getElementById('accountType').value,
+                    accountNumber: document.getElementById('accountNumber').value.trim(),
+                    routingNumber: document.getElementById('routingNumber').value.trim()
+                };
+
+                // Validate routing number
+                if (!/^\d{9}$/.test(formData.routingNumber)) {
+                    throw new Error('Routing number must be exactly 9 digits');
+                }
+
+                const response = await fetch(`${API_BASE_URL}/funding/bank-accounts`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to link bank account');
+                }
+
+                showMessage('Bank account linked successfully! Verification pending.', false);
+                
+                // Reset form
+                document.getElementById('linkBankForm').reset();
+                
+                // Reload accounts list
+                await loadBankAccounts();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage(error.message, true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-link"></i> Link Bank Account';
+            }
+        });
+
+        // Remove bank account
+        async function removeBankAccount(accountId) {
+            if (!confirm('Are you sure you want to remove this bank account?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/funding/bank-accounts/${accountId}`, {
+                    method: 'DELETE',
+                    headers: getHeaders()
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to remove bank account');
+                }
+
+                showMessage('Bank account removed successfully', false);
+                await loadBankAccounts();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage(error.message, true);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!checkAuth()) return;
+            loadBankAccounts();
+        });
+    </script>
+</body>
+  </html>
