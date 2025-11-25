@@ -127,12 +127,12 @@ function populateBankAccountDropdowns() {
             if (bankAccounts.length === 0) {
                 const option = document.createElement('option');
                 option.value = "";
-                option.textContent = "No bank accounts linked";
+                option.textContent = "No bank accounts linked - Click here to add one";
                 option.disabled = true;
                 select.appendChild(option);
             } else {
                 bankAccounts.forEach(bank => {
-                    if (bank.status === 'active' && bank.is_verified) {
+                    if (bank.is_verified) {
                         const option = document.createElement('option');
                         option.value = bank.id;
                         option.textContent = `${bank.bank_name} (****${bank.account_number_last4})`;
@@ -193,46 +193,44 @@ async function handleTransfer(event) {
     
     try {
         const fromAccountId = document.getElementById('transferFromAccount').value;
-        const toAccountId = document.getElementById('transferToAccountDropdown')?.value || 
-                           document.getElementById('transferToAccount').value;
+        const toAccountId = document.getElementById('transferToAccountDropdown')?.value;
         const amount = parseFloat(document.getElementById('transferAmount').value);
         const notes = document.getElementById('transferDescription').value;
         
-        // Check if transferring between own accounts
-        const toAccount = userAccounts.find(acc => acc.id === toAccountId);
+        if (!fromAccountId || !toAccountId) {
+            throw new Error('Please select both accounts');
+        }
+
+        if (fromAccountId === toAccountId) {
+            throw new Error('Cannot transfer to the same account');
+        }
         
-        if (toAccount) {
-            // Internal transfer between user's own accounts
-            const response = await fetch(`${API_BASE_URL}/funding/transfers`, {
-                method: 'POST',
-                headers: getHeaders(),
-                body: JSON.stringify({
-                    fromAccountId,
-                    toAccountId,
-                    amount,
-                    notes
-                })
-            });
+        const response = await fetch(`${API_BASE_URL}/funding/transfers`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify({
+                fromAccountId,
+                toAccountId,
+                amount,
+                notes
+            })
+        });
+        
+        if (!response.ok) {
+            await handleApiError(response);
+            return;
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showModalMessage('transferModal', 'Transfer successful!', false);
+            document.getElementById('transferForm').reset();
             
-            if (!response.ok) {
-                await handleApiError(response);
-                return;
-            }
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                showModalMessage('transferModal', 'Transfer successful!', false);
-                document.getElementById('transferForm').reset();
-                
-                setTimeout(() => {
-                    loadAccounts();
-                    closeModal('transferModal');
-                }, 2000);
-            }
-        } else {
-            // External transfer - not supported yet
-            throw new Error('External transfers are not yet supported. Please transfer between your own accounts only.');
+            setTimeout(() => {
+                loadAccounts();
+                closeModal('transferModal');
+            }, 2000);
         }
         
     } catch (error) {
