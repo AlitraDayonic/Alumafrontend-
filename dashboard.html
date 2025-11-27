@@ -457,6 +457,28 @@
             font-size: 12px;
         }
 
+        .pin-input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .pin-digit {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .pin-digit:focus {
+            border-color: #47af09;
+            outline: none;
+        }
+
         .submit-btn {
             width: 100%;
             padding: 14px;
@@ -526,6 +548,12 @@
             .modal-content {
                 width: 95%;
                 padding: 20px;
+            }
+
+            .pin-digit {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
         }
     </style>
@@ -676,6 +704,7 @@
         </div>
     </main>
 
+    <!-- Transfer Modal -->
     <div id="transferModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -716,6 +745,18 @@
                     <label>Amount</label>
                     <input type="number" id="transferAmount" placeholder="0.00" step="0.01" min="0.01" required>
                 </div>
+                
+                <div class="form-group">
+                    <label>Transaction PIN</label>
+                    <div class="pin-input-group">
+                        <input type="password" maxlength="1" class="pin-digit" id="transferPin1" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="transferPin2" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="transferPin3" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="transferPin4" required>
+                    </div>
+                    <small style="text-align: center;">Enter your 4-digit transaction PIN</small>
+                </div>
+                
                 <div class="form-group">
                     <label>Notes (Optional)</label>
                     <textarea id="transferDescription" placeholder="What's this transfer for?"></textarea>
@@ -727,6 +768,7 @@
         </div>
     </div>
 
+    <!-- Deposit Modal -->
     <div id="depositModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -752,6 +794,18 @@
                     <label>Amount</label>
                     <input type="number" id="depositAmount" placeholder="0.00" step="0.01" min="0.01" max="1000000" required>
                 </div>
+                
+                <div class="form-group">
+                    <label>Transaction PIN</label>
+                    <div class="pin-input-group">
+                        <input type="password" maxlength="1" class="pin-digit" id="depositPin1" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="depositPin2" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="depositPin3" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="depositPin4" required>
+                    </div>
+                    <small style="text-align: center;">Enter your 4-digit transaction PIN</small>
+                </div>
+                
                 <div class="form-group">
                     <label>Notes (Optional)</label>
                     <textarea id="depositDescription" placeholder="What's this deposit for?"></textarea>
@@ -763,6 +817,7 @@
         </div>
     </div>
 
+    <!-- Withdraw Modal -->
     <div id="withdrawModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -788,6 +843,18 @@
                     <label>Amount</label>
                     <input type="number" id="withdrawAmount" placeholder="0.00" step="0.01" min="0.01" max="1000000" required>
                 </div>
+                
+                <div class="form-group">
+                    <label>Transaction PIN</label>
+                    <div class="pin-input-group">
+                        <input type="password" maxlength="1" class="pin-digit" id="withdrawPin1" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="withdrawPin2" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="withdrawPin3" required>
+                        <input type="password" maxlength="1" class="pin-digit" id="withdrawPin4" required>
+                    </div>
+                    <small style="text-align: center;">Enter your 4-digit transaction PIN</small>
+                </div>
+                
                 <div class="form-group">
                     <label>Notes (Optional)</label>
                     <textarea id="withdrawDescription" placeholder="What's this withdrawal for?"></textarea>
@@ -799,6 +866,7 @@
         </div>
     </div>
 
+    <!-- Bills Modal -->
     <div id="billsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
