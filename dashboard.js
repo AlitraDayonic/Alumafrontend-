@@ -66,7 +66,6 @@ function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add('active');
-        // Load bank accounts and populate dropdowns
         loadBankAccountsForModals();
         populateAccountDropdowns();
     }
@@ -76,10 +75,8 @@ function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('active');
-        // Clear any messages
         const messageDiv = modal.querySelector('[id$="Message"]');
         if (messageDiv) messageDiv.innerHTML = '';
-        // Reset form
         const form = modal.querySelector('form');
         if (form) form.reset();
     }
@@ -127,7 +124,7 @@ function populateBankAccountDropdowns() {
             if (bankAccounts.length === 0) {
                 const option = document.createElement('option');
                 option.value = "";
-                option.textContent = "No bank accounts linked - Click here to add one";
+                option.textContent = "No bank accounts linked";
                 option.disabled = true;
                 select.appendChild(option);
             } else {
@@ -183,7 +180,28 @@ function showModalMessage(modalId, message, isError = false) {
     }
 }
 
-// Handle Transfer (Internal - between user's own accounts)
+// Toggle transfer type (internal vs external)
+function toggleTransferType() {
+    const transferType = document.getElementById('transferType').value;
+    const internalGroup = document.getElementById('internalTransferGroup');
+    const externalGroup = document.getElementById('externalTransferGroup');
+    const internalSelect = document.getElementById('transferToAccountDropdown');
+    const externalInput = document.getElementById('transferToAccountNumber');
+
+    if (transferType === 'internal') {
+        internalGroup.style.display = 'block';
+        externalGroup.style.display = 'none';
+        internalSelect.required = true;
+        externalInput.required = false;
+    } else {
+        internalGroup.style.display = 'none';
+        externalGroup.style.display = 'block';
+        internalSelect.required = false;
+        externalInput.required = true;
+    }
+}
+
+// Handle Transfer (Both Internal and External)
 async function handleTransfer(event) {
     event.preventDefault();
     
@@ -192,28 +210,55 @@ async function handleTransfer(event) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     
     try {
+        const transferType = document.getElementById('transferType').value;
         const fromAccountId = document.getElementById('transferFromAccount').value;
-        const toAccountId = document.getElementById('transferToAccountDropdown')?.value;
         const amount = parseFloat(document.getElementById('transferAmount').value);
         const notes = document.getElementById('transferDescription').value;
-        
-        if (!fromAccountId || !toAccountId) {
-            throw new Error('Please select both accounts');
+
+        if (!fromAccountId) {
+            throw new Error('Please select source account');
         }
 
-        if (fromAccountId === toAccountId) {
-            throw new Error('Cannot transfer to the same account');
-        }
-        
-        const response = await fetch(`${API_BASE_URL}/funding/transfers`, {
-            method: 'POST',
-            headers: getHeaders(),
-            body: JSON.stringify({
+        let endpoint, requestBody;
+
+        if (transferType === 'internal') {
+            const toAccountId = document.getElementById('transferToAccountDropdown').value;
+            
+            if (!toAccountId) {
+                throw new Error('Please select destination account');
+            }
+
+            if (fromAccountId === toAccountId) {
+                throw new Error('Cannot transfer to the same account');
+            }
+
+            endpoint = `${API_BASE_URL}/funding/transfers`;
+            requestBody = {
                 fromAccountId,
                 toAccountId,
                 amount,
                 notes
-            })
+            };
+        } else {
+            const toAccountNumber = document.getElementById('transferToAccountNumber').value.trim();
+            
+            if (!toAccountNumber) {
+                throw new Error('Please enter recipient account number');
+            }
+
+            endpoint = `${API_BASE_URL}/funding/transfers/external`;
+            requestBody = {
+                fromAccountId,
+                toAccountNumber,
+                amount,
+                notes
+            };
+        }
+        
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(requestBody)
         });
         
         if (!response.ok) {
@@ -224,8 +269,14 @@ async function handleTransfer(event) {
         const data = await response.json();
         
         if (data.success) {
-            showModalMessage('transferModal', 'Transfer successful!', false);
+            const recipientInfo = data.data.recipientName 
+                ? ` to ${data.data.recipientName}` 
+                : '';
+            showModalMessage('transferModal', `Transfer successful${recipientInfo}!`, false);
             document.getElementById('transferForm').reset();
+            
+            document.getElementById('transferType').value = 'internal';
+            toggleTransferType();
             
             setTimeout(() => {
                 loadAccounts();
@@ -352,11 +403,10 @@ async function handleWithdraw(event) {
     }
 }
 
-// Handle Pay Bills (placeholder - endpoint doesn't exist yet)
+// Handle Pay Bills
 async function handlePayBills(event) {
     event.preventDefault();
-    
-    showModalMessage('billsModal', 'Bill payment feature is coming soon! Please use transfers for now.', true);
+    showModalMessage('billsModal', 'Bill payment feature is coming soon!', true);
 }
 
 // Load user profile
@@ -433,7 +483,7 @@ async function loadAccounts() {
     }
 }
 
-// Load account activity (transactions)
+// Load account activity
 async function loadAccountActivity(accountId) {
     try {
         const response = await fetch(`${API_BASE_URL}/accounts/${accountId}/activity?limit=10`, {
@@ -462,7 +512,7 @@ async function loadAccountActivity(accountId) {
     }
 }
 
-// Display transactions in table
+// Display transactions
 function displayTransactions(transactions) {
     const container = document.getElementById('transactionsTable');
     
@@ -509,7 +559,7 @@ function displayTransactions(transactions) {
     container.innerHTML = tableHTML;
 }
 
-// Calculate monthly income and expenses
+// Calculate monthly stats
 function calculateMonthlyStats(transactions) {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
@@ -547,7 +597,7 @@ function updateCurrentDate() {
     document.getElementById('currentDate').textContent = currentDate;
 }
 
-// Logout function
+// Logout
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('aluma_access_token');
