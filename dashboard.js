@@ -61,6 +61,75 @@ function formatDate(dateString) {
     }).format(date);
 }
 
+// PIN Input Handler
+function setupPinInputs(prefix) {
+    const pin1 = document.getElementById(`${prefix}Pin1`);
+    const pin2 = document.getElementById(`${prefix}Pin2`);
+    const pin3 = document.getElementById(`${prefix}Pin3`);
+    const pin4 = document.getElementById(`${prefix}Pin4`);
+    
+    const pins = [pin1, pin2, pin3, pin4];
+    
+    pins.forEach((pin, index) => {
+        // Auto-focus next input
+        pin.addEventListener('input', (e) => {
+            if (e.target.value.length === 1) {
+                // Only allow digits
+                if (!/^\d$/.test(e.target.value)) {
+                    e.target.value = '';
+                    return;
+                }
+                
+                if (index < pins.length - 1) {
+                    pins[index + 1].focus();
+                }
+            }
+        });
+        
+        // Handle backspace
+        pin.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                pins[index - 1].focus();
+            }
+        });
+        
+        // Handle paste
+        pin.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+            
+            pasteData.split('').forEach((digit, i) => {
+                if (pins[i]) {
+                    pins[i].value = digit;
+                }
+            });
+            
+            if (pasteData.length > 0) {
+                pins[Math.min(pasteData.length, 3)].focus();
+            }
+        });
+    });
+}
+
+// Get PIN value
+function getPinValue(prefix) {
+    const pin1 = document.getElementById(`${prefix}Pin1`).value;
+    const pin2 = document.getElementById(`${prefix}Pin2`).value;
+    const pin3 = document.getElementById(`${prefix}Pin3`).value;
+    const pin4 = document.getElementById(`${prefix}Pin4`).value;
+    
+    return pin1 + pin2 + pin3 + pin4;
+}
+
+// Clear PIN inputs
+function clearPinInputs(prefix) {
+    document.getElementById(`${prefix}Pin1`).value = '';
+    document.getElementById(`${prefix}Pin2`).value = '';
+    document.getElementById(`${prefix}Pin3`).value = '';
+    document.getElementById(`${prefix}Pin4`).value = '';
+    document.getElementById(`${prefix}Pin1`).focus();
+}
+
 // Modal functions
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -68,6 +137,15 @@ function openModal(modalId) {
         modal.classList.add('active');
         loadBankAccountsForModals();
         populateAccountDropdowns();
+        
+        // Setup PIN inputs for the modal
+        if (modalId === 'transferModal') {
+            setupPinInputs('transfer');
+        } else if (modalId === 'depositModal') {
+            setupPinInputs('deposit');
+        } else if (modalId === 'withdrawModal') {
+            setupPinInputs('withdraw');
+        }
     }
 }
 
@@ -79,6 +157,15 @@ function closeModal(modalId) {
         if (messageDiv) messageDiv.innerHTML = '';
         const form = modal.querySelector('form');
         if (form) form.reset();
+        
+        // Clear PIN inputs
+        if (modalId === 'transferModal') {
+            clearPinInputs('transfer');
+        } else if (modalId === 'depositModal') {
+            clearPinInputs('deposit');
+        } else if (modalId === 'withdrawModal') {
+            clearPinInputs('withdraw');
+        }
     }
 }
 
@@ -214,9 +301,14 @@ async function handleTransfer(event) {
         const fromAccountId = document.getElementById('transferFromAccount').value;
         const amount = parseFloat(document.getElementById('transferAmount').value);
         const notes = document.getElementById('transferDescription').value;
+        const pin = getPinValue('transfer');
 
         if (!fromAccountId) {
             throw new Error('Please select source account');
+        }
+
+        if (pin.length !== 4) {
+            throw new Error('Please enter your 4-digit PIN');
         }
 
         let endpoint, requestBody;
@@ -237,7 +329,8 @@ async function handleTransfer(event) {
                 fromAccountId,
                 toAccountId,
                 amount,
-                notes
+                notes,
+                pin
             };
         } else {
             const toAccountNumber = document.getElementById('transferToAccountNumber').value.trim();
@@ -251,7 +344,8 @@ async function handleTransfer(event) {
                 fromAccountId,
                 toAccountNumber,
                 amount,
-                notes
+                notes,
+                pin
             };
         }
         
@@ -274,6 +368,7 @@ async function handleTransfer(event) {
                 : '';
             showModalMessage('transferModal', `Transfer successful${recipientInfo}!`, false);
             document.getElementById('transferForm').reset();
+            clearPinInputs('transfer');
             
             document.getElementById('transferType').value = 'internal';
             toggleTransferType();
@@ -287,6 +382,7 @@ async function handleTransfer(event) {
     } catch (error) {
         console.error('Transfer error:', error);
         showModalMessage('transferModal', error.message, true);
+        clearPinInputs('transfer');
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Transfer Now';
@@ -306,9 +402,14 @@ async function handleDeposit(event) {
         const bankAccountId = document.getElementById('depositBankAccount').value;
         const amount = parseFloat(document.getElementById('depositAmount').value);
         const notes = document.getElementById('depositDescription').value;
+        const pin = getPinValue('deposit');
         
         if (!bankAccountId) {
             throw new Error('Please select a bank account or link one first');
+        }
+
+        if (pin.length !== 4) {
+            throw new Error('Please enter your 4-digit PIN');
         }
         
         const response = await fetch(`${API_BASE_URL}/funding/deposits`, {
@@ -318,7 +419,8 @@ async function handleDeposit(event) {
                 accountId,
                 bankAccountId,
                 amount,
-                notes
+                notes,
+                pin
             })
         });
         
@@ -332,6 +434,7 @@ async function handleDeposit(event) {
         if (data.success) {
             showModalMessage('depositModal', 'Deposit initiated successfully!', false);
             document.getElementById('depositForm').reset();
+            clearPinInputs('deposit');
             
             setTimeout(() => {
                 loadAccounts();
@@ -342,6 +445,7 @@ async function handleDeposit(event) {
     } catch (error) {
         console.error('Deposit error:', error);
         showModalMessage('depositModal', error.message, true);
+        clearPinInputs('deposit');
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Deposit Now';
@@ -361,9 +465,14 @@ async function handleWithdraw(event) {
         const bankAccountId = document.getElementById('withdrawBankAccount').value;
         const amount = parseFloat(document.getElementById('withdrawAmount').value);
         const notes = document.getElementById('withdrawDescription').value;
+        const pin = getPinValue('withdraw');
         
         if (!bankAccountId) {
             throw new Error('Please select a bank account or link one first');
+        }
+
+        if (pin.length !== 4) {
+            throw new Error('Please enter your 4-digit PIN');
         }
         
         const response = await fetch(`${API_BASE_URL}/funding/withdrawals`, {
@@ -373,7 +482,8 @@ async function handleWithdraw(event) {
                 accountId,
                 bankAccountId,
                 amount,
-                notes
+                notes,
+                pin
             })
         });
         
@@ -387,6 +497,7 @@ async function handleWithdraw(event) {
         if (data.success) {
             showModalMessage('withdrawModal', 'Withdrawal request submitted successfully!', false);
             document.getElementById('withdrawForm').reset();
+            clearPinInputs('withdraw');
             
             setTimeout(() => {
                 loadAccounts();
@@ -397,6 +508,7 @@ async function handleWithdraw(event) {
     } catch (error) {
         console.error('Withdraw error:', error);
         showModalMessage('withdrawModal', error.message, true);
+        clearPinInputs('withdraw');
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-minus-circle"></i> Withdraw Now';
