@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Transaction PIN - Aluma Banking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #161E44 0%, #2a3f7d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .setup-container {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #161E44;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .icon-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon-container i {
+            font-size: 64px;
+            color: #47af09;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #161E44;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: #f0f8f0;
+            border-left: 4px solid #47af09;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #2d7a05;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .pin-input-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .pin-digit {
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .pin-digit:focus {
+            border-color: #47af09;
+            outline: none;
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px rgba(71, 175, 9, 0.1);
+        }
+
+        .pin-strength {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #47af09;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn:hover {
+            background: #3a8d07;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(71, 175, 9, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .skip-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .skip-link a {
+            color: #47af09;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .skip-link a:hover {
+            text-decoration: underline;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .warning-box p {
+            color: #856404;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .setup-container {
+                padding: 30px 20px;
+            }
+
+            .pin-digit {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+
+            .pin-input-group {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="logo">
+            <h1>Aluma Banking</h1>
+            <p>Secure Your Transactions</p>
+        </div>
+
+        <div class="icon-container">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+
+        <h2>Set Your Transaction PIN</h2>
+        <p class="subtitle">
+            Create a 4-digit PIN to secure your deposits, withdrawals, and transfers.
+        </p>
+
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> PIN Requirements:</h3>
+            <ul>
+                <li>Must be exactly 4 digits</li>
+                <li>Use numbers only (0-9)</li>
+                <li>Avoid obvious patterns (1234, 0000)</li>
+                <li>Don't use your birth year or phone number</li>
+            </ul>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <form id="setPinForm">
+            <div class="form-group">
+                <label>Enter Your PIN</label>
+                <div class="pin-input-group">
+                    <input type="password" maxlength="1" class="pin-digit" id="pin1" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="pin2" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="pin3" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="pin4" required autocomplete="off">
+                </div>
+                <div class="pin-strength" id="pinStrength"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Your PIN</label>
+                <div class="pin-input-group">
+                    <input type="password" maxlength="1" class="pin-digit" id="confirmPin1" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="confirmPin2" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="confirmPin3" required autocomplete="off">
+                    <input type="password" maxlength="1" class="pin-digit" id="confirmPin4" required autocomplete="off">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fas fa-check-circle"></i> Set PIN & Continue
+            </button>
+        </form>
+
+        <div class="warning-box">
+            <p><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Remember your PIN. You'll need it for all transaction operations.</p>
+        </div>
+
+        <div class="skip-link">
+            <a href="dashboard.html" id="skipLink">Skip for now (you can set it later in settings)</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://aluma-banking-backend.onrender.com/api/v1';
+
+        // Check if user is authenticated
+        function checkAuth() {
+            const token = localStorage.getItem('aluma_access_token') || sessionStorage.getItem('aluma_access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return token;
+        }
+
+        function getHeaders() {
+            const token = localStorage.getItem('aluma_access_token') || sessionStorage.getItem('aluma_access_token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        // Setup PIN input handlers
+        function setupPinInputs(prefix) {
+            const pin1 = document.getElementById(`${prefix}1`);
+            const pin2 = document.getElementById(`${prefix}2`);
+            const pin3 = document.getElementById(`${prefix}3`);
+            const pin4 = document.getElementById(`${prefix}4`);
+            
+            const pins = [pin1, pin2, pin3, pin4];
+            
+            pins.forEach((pin, index) => {
+                // Auto-focus next input
+                pin.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1) {
+                        // Only allow digits
+                        if (!/^\d$/.test(e.target.value)) {
+                            e.target.value = '';
+                            return;
+                        }
+                        
+                        if (index < pins.length - 1) {
+                            pins[index + 1].focus();
+                        }
+
+                        // Check strength after PIN entry
+                        if (prefix === 'pin') {
+                            checkPinStrength();
+                        }
+                    }
+                });
+                
+                // Handle backspace
+                pin.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        pins[index - 1].focus();
+                    }
+                });
+                
+                // Handle paste
+                pin.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+                    
+                    pasteData.split('').forEach((digit, i) => {
+                        if (pins[i]) {
+                            pins[i].value = digit;
+                        }
+                    });
+                    
+                    if (pasteData.length > 0) {
+                        pins[Math.min(pasteData.length, 3)].focus();
+                    }
+                });
+            });
+        }
+
+        function getPinValue(prefix) {
+            const pin1 = document.getElementById(`${prefix}1`).value;
+            const pin2 = document.getElementById(`${prefix}2`).value;
+            const pin3 = document.getElementById(`${prefix}3`).value;
+            const pin4 = document.getElementById(`${prefix}4`).value;
+            
+            return pin1 + pin2 + pin3 + pin4;
+        }
+
+        function clearPinInputs(prefix) {
+            document.getElementById(`${prefix}1`).value = '';
+            document.getElementById(`${prefix}2`).value = '';
+            document.getElementById(`${prefix}3`).value = '';
+            document.getElementById(`${prefix}4`).value = '';
+            document.getElementById(`${prefix}1`).focus();
+        }
+
+        function checkPinStrength() {
+            const pin = getPinValue('pin');
+            const strengthDiv = document.getElementById('pinStrength');
+
+            if (pin.length !== 4) {
+                strengthDiv.textContent = '';
+                return;
+            }
+
+            // Check for weak patterns
+            const weakPatterns = ['0000', '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999', 
+                                  '1234', '4321', '2345', '5432', '0123', '3210'];
+            
+            if (weakPatterns.includes(pin)) {
+                strengthDiv.textContent = '⚠️ Weak PIN - Avoid obvious patterns';
+                strengthDiv.style.color = '#ff4444';
+            } else {
+                strengthDiv.textContent = '✓ Good PIN';
+                strengthDiv.style.color = '#47af09';
+            }
+        }
+
+        function showMessage(message, isError = false) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            if (isError) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+            } else {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            }
+
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        async function handleSetPin(event) {
+            event.preventDefault();
+
+            const pin = getPinValue('pin');
+            const confirmPin = getPinValue('confirmPin');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Validate
+            if (pin.length !== 4) {
+                showMessage('Please enter a 4-digit PIN', true);
+                return;
+            }
+
+            if (confirmPin.length !== 4) {
+                showMessage('Please confirm your PIN', true);
+                return;
+            }
+
+            if (pin !== confirmPin) {
+                showMessage('PINs do not match', true);
+                clearPinInputs('confirmPin');
+                return;
+            }
+
+            // Check for weak patterns
+            const weakPatterns = ['0000', '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999', 
+                                  '1234', '4321', '2345', '5432', '0123', '3210'];
+            
+            if (weakPatterns.includes(pin)) {
+                const confirm = window.confirm('This PIN is weak and easy to guess. Are you sure you want to use it?');
+                if (!confirm) {
+                    clearPinInputs('pin');
+                    clearPinInputs('confirmPin');
+                    return;
+                }
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Setting PIN...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/pin/set`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify({ pin, confirmPin })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to set PIN');
+                }
+
+                showMessage('PIN set successfully! Redirecting to dashboard...', false);
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+
+            } catch (error) {
+                showMessage(error.message, true);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Set PIN & Continue';
+            }
+        }
+
+        // Initialize
+        if (checkAuth()) {
+            setupPinInputs('pin');
+            setupPinInputs('confirmPin');
+            document.getElementById('setPinForm').addEventListener('submit', handleSetPin);
+            document.getElementById('pin1').focus();
+        }
+    </script>
+</body>
+</html>
